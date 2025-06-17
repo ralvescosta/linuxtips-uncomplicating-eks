@@ -15,3 +15,11 @@ resource "aws_vpc_ipv4_cidr_block_association" "main" {
   vpc_id = aws_vpc.main.id
   cidr_block = var.vpc_additional_cidrs[count.index]
 }
+
+resource "aws_internet_gateway" "main" {
+  vpc_id = aws_vpc.main.id
+
+  tags = {
+    Name = var.igw_name
+  } 
+}

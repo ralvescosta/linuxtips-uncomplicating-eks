@@ -1,0 +1,13 @@
+variable "vpc_id" {
+ type        = string
+ description = "ID of the VPC to create the subnets in"
+}
+
+variable "subnets" {
+  type = list(object({
+    name = string
+    cidr = string
+    az   = string
+  }))
+  description = "List of subnets to create, each with a name and CIDR block"
+}

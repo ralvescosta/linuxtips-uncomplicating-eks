@@ -14,3 +14,8 @@ variable "vpc_additional_cidrs" {
  description = "Additional CIDR blocks for the VPC"
  default     = []
 }
+
+variable "igw_name" {
+ type        = string
+ description = "Name of the Internet Gateway to create" 
+}
