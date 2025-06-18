@@ -81,3 +81,45 @@ module "private_subnets" {
 
   depends_on = [ module.public_subnets ]
 }
+
+module "database_subnets" {
+  source = "../../modules/database_subnets"
+
+  project_name     = var.project_name
+  vpc_id           = module.vpc.vpc_id
+
+  database_subnets = [
+    {
+      name = "${var.project_name}-database-1a"
+      cidr = "10.0.51.0/24",
+      az   = "us-east-1a"
+    },
+    {
+      name = "${var.project_name}-database-1b"
+      cidr = "10.0.52.0/24",
+      az   = "us-east-1b"
+    },
+    {
+      name = "${var.project_name}-database-1c"
+      cidr = "10.0.53.0/24",
+      az   = "us-east-1c"
+    }
+  ]
+}
+
+module "parameters" {
+  source = "../../modules/parameter_store"
+
+  project_name     = var.project_name
+  vpc_id           = module.vpc.vpc_id
+  public_subnets   = module.public_subnets.subnets_details
+  private_subnets  = module.private_subnets.subnets_details
+  database_subnets = module.database_subnets.subnets_details
+
+  depends_on = [
+    module.vpc,
+    module.public_subnets,
+    module.private_subnets,
+    module.database_subnets
+  ]
+}
