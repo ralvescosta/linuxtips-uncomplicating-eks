@@ -14,14 +14,14 @@ resource "aws_route_table" "main" {
   vpc_id = var.vpc_id
 
   tags = {
-    Name = var.route_table_name
+    Name = format("%s-%s-%s", var.project_name, var.subnets[0].name, "rtb")
   } 
 }
 
 resource "aws_route" "main" {
   route_table_id         = aws_route_table.main.id
-  destination_cidr_block = var.route_destination_cidr
-  gateway_id             = var.route_gateway_id
+  destination_cidr_block = "0.0.0.0/0"
+  gateway_id             = var.igw_id
 
   depends_on = [aws_subnet.main, aws_route_table.main] 
 }

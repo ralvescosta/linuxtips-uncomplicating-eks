@@ -1,7 +1,7 @@
-variable "vpc_name" {
- type        = string
- description = "Name of the VPC"
- default     = "my-vpc"
+variable "project_name" {
+  type        = string
+  description = "Name of the project for which the subnets are being created"
+  default     = "my_project" 
 }
 
 variable "vpc_cidr" {
@@ -13,9 +13,4 @@ variable "vpc_additional_cidrs" {
  type        = list(string)
  description = "Additional CIDR blocks for the VPC"
  default     = []
-}
-
-variable "igw_name" {
- type        = string
- description = "Name of the Internet Gateway to create" 
 }

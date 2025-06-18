@@ -1,23 +1,21 @@
 module "vpc" {
   source = "../../modules/vpc"
 
-  vpc_name = "${var.project_name}-vpc"
-  vpc_cidr = "10.0.0.0/16"
+  project_name = var.project_name
+  vpc_cidr     = "10.0.0.0/16"
+
   vpc_additional_cidrs = [
     "100.64.0.0/16"
   ]
-
-  igw_name = "${var.project_name}-igw"
 }
 
 module "public_subnets" {
-  source = "../../modules/subnet"
+  source = "../../modules/public_subnets"
 
-  route_table_name = "${var.project_name}-public-rt"
-  route_destination_cidr = "0.0.0.0/0"
-  route_gateway_id = module.vpc.igw_id
+  project_name     = var.project_name
+  vpc_id           = module.vpc.vpc_id
+  igw_id           = module.vpc.igw_id
 
-  vpc_id  = module.vpc.vpc_id
   subnets = [
     {
       name = "${var.project_name}-public-1a"
@@ -35,4 +33,51 @@ module "public_subnets" {
       az   = "us-east-1c"
     }
   ]
+
+  depends_on = [ module.vpc ]
+}
+
+module "private_subnets" {
+  source = "../../modules/private_subnets"
+
+  project_name   = var.project_name
+  vpc_id         = module.vpc.vpc_id
+  public_subnets = module.public_subnets.subnets_details
+
+  private_subnets = [
+    # general propose
+    {
+      name = "${var.project_name}-private-1a"
+      cidr = "10.0.0.0/20",
+      az   = "us-east-1a"
+    },
+    {
+      name = "${var.project_name}-private-1b"
+      cidr = "10.0.16.0/20",
+      az   = "us-east-1b"
+    },
+    {
+      name = "${var.project_name}-private-1c"
+      cidr = "10.0.32.0/20",
+      az   = "us-east-1c"
+    },
+    # pods
+    {
+      name = "${var.project_name}-pods-1a"
+      cidr = "100.64.0.0/18",
+      az   = "us-east-1a"
+    },
+    {
+      name = "${var.project_name}-pods-1b"
+      cidr = "100.64.64.0/18",
+      az   = "us-east-1b"
+    },
+    {
+      name = "${var.project_name}-pods-1c"
+      cidr = "100.64.128.0/18",
+      az   = "us-east-1c"
+    }
+  ]
+
+  depends_on = [ module.public_subnets ]
 }
