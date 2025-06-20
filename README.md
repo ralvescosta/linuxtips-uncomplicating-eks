@@ -15,3 +15,10 @@
 **Service Mesh and Traffic Control**: Implement Istio for intelligent routing, resilience, and service telemetry. Configure ingress with ALB, NLB, and Nginx.
 
 **Security and Production Best Practices**: Apply RBAC, Network Policies, scalability with KEDA, and strategies to prevent failures, secret leaks, and production bottlenecks.
+
+## Final Projects:
+  - [linuxtips-curso-containers-aws](https://github.com/msfidelis/linuxtips-curso-containers-aws?tab=readme-ov-file)
+  - [linuxtips-curso-containers-aws-eks-networking](https://github.com/msfidelis/linuxtips-curso-containers-aws-eks-networking)
+  - [linuxtips-curso-containers-aws-eks-vanilla](https://github.com/msfidelis/linuxtips-curso-containers-aws-eks-vanilla)
+  - [linuxtips-curso-containers-aws-eks-observability-cluster](https://github.com/msfidelis/linuxtips-curso-containers-aws-eks-observability-cluster)
+  - [linuxtips-curso-containers-aws-eks-multicluster-management](https://github.com/msfidelis/linuxtips-curso-containers-aws-eks-multicluster-management)
