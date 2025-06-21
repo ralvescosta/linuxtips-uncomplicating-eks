@@ -1,8 +1,8 @@
 provider "aws" {
   region                      = var.region
-  s3_use_path_style           = var.use_localstack
+  s3_use_path_style           = var.use_localstack 
   skip_credentials_validation = var.use_localstack
-  skip_metadata_api_check     = var.use_localstack
+  skip_metadata_api_check     = var.use_localstack 
   skip_requesting_account_id  = var.use_localstack
 
   endpoints {
@@ -15,10 +15,11 @@ provider "aws" {
     es                     = var.use_localstack ? "http://localhost:4566" : null
     ecs                    = var.use_localstack ? "http://localhost:4566" : null
     ec2                    = var.use_localstack ? "http://localhost:4566" : null
+    eks                    = var.use_localstack ? "http://localhost:4566" : null
     ecr                    = var.use_localstack ? "http://localhost:4566" : null
-    elb                    = var.use_localstack ? "http://localhost:4566" : null
-    elasticloadbalancing   = var.use_localstack ? "http://localhost:4566" : null
-    elasticloadbalancingv2 = var.use_localstack ? "http://localhost:4566" : null
+    elb                    = var.use_localstack ? "http://localhost:4566" : null   
+    elasticloadbalancing   = var.use_localstack ? "http://localhost:4566" : null   
+    elasticloadbalancingv2 = var.use_localstack ? "http://localhost:4566" : null   
     firehose               = var.use_localstack ? "http://localhost:4566" : null
     iam                    = var.use_localstack ? "http://localhost:4566" : null
     kinesis                = var.use_localstack ? "http://localhost:4566" : null

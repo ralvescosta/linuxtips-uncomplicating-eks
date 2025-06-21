@@ -12,9 +12,9 @@ module "vpc" {
 module "public_subnets" {
   source = "../../modules/public_subnets"
 
-  project_name     = var.project_name
-  vpc_id           = module.vpc.vpc_id
-  igw_id           = module.vpc.igw_id
+  project_name = var.project_name
+  vpc_id       = module.vpc.vpc_id
+  igw_id       = module.vpc.igw_id
 
   subnets = [
     {
@@ -34,7 +34,7 @@ module "public_subnets" {
     }
   ]
 
-  depends_on = [ module.vpc ]
+  depends_on = [module.vpc]
 }
 
 module "private_subnets" {
@@ -79,14 +79,14 @@ module "private_subnets" {
     }
   ]
 
-  depends_on = [ module.public_subnets ]
+  depends_on = [module.public_subnets]
 }
 
 module "database_subnets" {
   source = "../../modules/database_subnets"
 
-  project_name     = var.project_name
-  vpc_id           = module.vpc.vpc_id
+  project_name = var.project_name
+  vpc_id       = module.vpc.vpc_id
 
   database_subnets = [
     {

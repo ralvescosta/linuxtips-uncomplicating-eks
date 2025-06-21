@@ -8,5 +8,5 @@ variable "region" {
 
 variable "use_localstack" {
   type    = bool
-  default = true 
+  default = true
 }
