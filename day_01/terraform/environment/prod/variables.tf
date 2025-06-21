@@ -5,3 +5,8 @@ variable "project_name" {
 variable "region" {
   type = string
 }
+
+variable "use_localstack" {
+  type    = bool
+  default = true 
+}

@@ -9,3 +9,5 @@ In this first class, we will explore the Elastic Kubernetes Service (EKS), under
 > terraform init
 
 > terraform apply --auto-approve -var-file=terraform.tfvars
+
+> aws --endpoint-url=http://localhost:4566 ec2 describe-vpcs
