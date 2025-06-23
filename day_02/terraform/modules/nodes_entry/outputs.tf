@@ -5,7 +5,7 @@ output "eks_nodes_access_entry_id" {
 
 output "eks_nodes_access_entry_arn" {
   description = "The ARN of the EKS nodes access entry"
-  value       = aws_eks_access_entry.nodes.arn
+  value       = aws_eks_access_entry.nodes.access_entry_arn
 }
 
 output "eks_nodes_access_entry_principal_arn" {

@@ -43,24 +43,9 @@ output "oidc_provider_certificate_not_after" {
   value       = data.tls_certificate.eks.certificates[0].not_after
 }
 
-output "oidc_provider_certificate_serial" {
-  description = "The serial number of the OIDC provider's certificate"
-  value       = data.tls_certificate.eks.certificates[0].serial
-}
-
-output "oidc_provider_certificate_public_key" {
-  description = "The public key of the OIDC provider's certificate"
-  value       = data.tls_certificate.eks.certificates[0].public_key_pem
-}
-
 output "oidc_provider_certificate_signature_algorithm" {
   description = "The signature algorithm of the OIDC provider's certificate"
   value       = data.tls_certificate.eks.certificates[0].signature_algorithm
-}
-
-output "oidc_provider_certificate_key_algorithm" {
-  description = "The key algorithm of the OIDC provider's certificate" 
-  value       = data.tls_certificate.eks.certificates[0].key_algorithm
 }
 
 output "oidc_provider_certificate_version" {
