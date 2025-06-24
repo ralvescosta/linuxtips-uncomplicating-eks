@@ -1,4 +1,4 @@
-# LinuxTips Uncomplicating EKS Day 02
+# LinuxTips Uncomplicating EKS Day 02 - Elastic Kubernetes Service - Vanilla Cluster Setup and Wildcard Components (Minimal Setup)
 
 In this second class, we will be creating our first EKS cluster in the simplest and most direct version possible, ideal for those who want a productive environment with efficiency and speed. You will learn concepts about IAM Roles for cluster and nodes, resource encryption with KMS. Together, we will create an EKS Control Plane, explore the advanced concept of EKS Zone Shifter, and address internal authentication with aws-auth and IAM Access Entries. In practice, we will create our first Managed Node Groups and learn about the main managed addons like CoreDNS, kube-proxy and VPC-CNI. Additionally, you will learn how to automate installations with Helm using Terraform through helm_release, performing the first deployment of the lab and starting your productive journey in Kubernetes. The instructor live us the terraform made during the classes in [this link](https://github.com/msfidelis/linuxtips-curso-containers-aws-eks-vanilla)
 
