@@ -77,8 +77,28 @@ module "nodes" {
   pod_subnet_ids          = data.aws_ssm_parameter.pod_subnets[*].value
 
   depends_on = [ 
+    module.eks_nodes_role,
     module.eks,
     module.nodes_entry,
-    module.eks_nodes_role,
+  ]
+}
+
+module "kube_metrics_server" {
+  source = "../../modules/helm_metrics_server"
+
+  depends_on = [ 
+    module.eks,
+    module.nodes_entry,
+    module.nodes,
+  ]
+}
+
+module "kube_state_metrics" {
+  source = "../../modules/helm_kube_state_metrics"
+
+  depends_on = [ 
+    module.eks,
+    module.nodes_entry,
+    module.nodes,
   ]
 }
