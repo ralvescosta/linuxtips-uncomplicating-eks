@@ -1,0 +1,1 @@
+# LinuxTips Uncomplicating EKS Day 06 -
