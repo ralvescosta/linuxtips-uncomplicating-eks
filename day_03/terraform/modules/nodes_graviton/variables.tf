@@ -1,7 +1,7 @@
 variable "project_name" {
   type        = string
   description = "Name of the project for which the subnets are being created"
-  default     = "my_project" 
+  default     = "my_project"
 }
 
 variable "aws_eks_cluster_id" {
@@ -15,7 +15,7 @@ variable "aws_eks_nodes_role_arn" {
 }
 
 variable "auto_scale_options" {
-  type = map(number)
+  type        = map(number)
   description = "Auto scaling options for the EKS node group, including desired, max, and min sizes"
   default = {
     desired = 2

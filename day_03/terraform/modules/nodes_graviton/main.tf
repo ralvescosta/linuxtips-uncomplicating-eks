@@ -1,13 +1,13 @@
 resource "aws_eks_node_group" "main" {
-  cluster_name     = var.aws_eks_cluster_id
-  node_group_name  = format("%s-graviton", var.aws_eks_cluster_id)
-  node_role_arn    = var.aws_eks_nodes_role_arn
-  instance_types   = [
+  cluster_name    = var.aws_eks_cluster_id
+  node_group_name = format("%s-graviton", var.aws_eks_cluster_id)
+  node_role_arn   = var.aws_eks_nodes_role_arn
+  instance_types = [
     "t4g.large",
     "c7g.large",
   ]
 
-  subnet_ids       = var.pod_subnet_ids
+  subnet_ids = var.pod_subnet_ids
 
   scaling_config {
     desired_size = lookup(var.auto_scale_options, "desired")
