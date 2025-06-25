@@ -8,8 +8,10 @@ resource "helm_release" "metrics_server" {
   replace = true
   version = "7.2.16"
 
-  set {
-    name  = "apiService.create"
-    value = "true"
-  }
+  set = [
+    {
+      name  = "apiService.create"
+      value = "true"
+    }
+  ]
 }

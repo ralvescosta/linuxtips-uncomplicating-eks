@@ -104,7 +104,7 @@ module "eks_autoscaler_role" {
   source = "../../modules/iam_cluster_autoscaler"
 
   project_name                = var.project_name
-  openid_connect_provider_arn = module.oidc.openid_connect_provider_arn
+  openid_connect_provider_arn = module.oidc.oidc_provider_arn
 }
 
 module "eks_autoscaler" {
@@ -126,7 +126,7 @@ module "eks_node_termination_handler_role" {
   source = "../../modules/iam_node_termination_handler"
 
   project_name                = var.project_name
-  openid_connect_provider_arn = module.oidc.openid_connect_provider_arn
+  openid_connect_provider_arn = module.oidc.oidc_provider_arn
 }
 
 module "sqs_node_termination_handler" {
