@@ -1,6 +1,6 @@
 resource "aws_eks_node_group" "main" {
   cluster_name     = var.aws_eks_cluster_id
-  node_group_name  = var.aws_eks_cluster_id
+  node_group_name  = format("%s-on-demand", var.aws_eks_cluster_id)
   node_role_arn    = var.aws_eks_nodes_role_arn
   instance_types   = var.nodes_instance_sizes
 
@@ -12,8 +12,12 @@ resource "aws_eks_node_group" "main" {
     min_size     = lookup(var.auto_scale_options, "min")
   }
 
+  capacity_type = "ON_DEMAND"
+
   labels = {
-    "ingress/ready" = "true"
+    "capacity/os"   = "AMAZON_LINUX"
+    "capacity/arch" = "x86_64"
+    "capacity/type" = "ON_DEMAND"
   }
 
   tags = {
