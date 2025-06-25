@@ -63,8 +63,8 @@ module "nodes_entry" {
   ]
 }
 
-module "nodes" {
-  source = "../../modules/nodes"
+module "spot_nodes" {
+  source = "../../modules/nodes_spot"
 
   project_name           = var.project_name
   aws_eks_cluster_id     = module.eks.cluster_id
@@ -86,7 +86,7 @@ module "kube_metrics_server" {
   depends_on = [
     module.eks,
     module.nodes_entry,
-    module.nodes,
+    module.spot_nodes,
   ]
 }
 
@@ -96,6 +96,28 @@ module "kube_state_metrics" {
   depends_on = [
     module.eks,
     module.nodes_entry,
-    module.nodes,
+    module.spot_nodes,
+  ]
+}
+
+module "eks_autoscaler_role" {
+  source = "../../modules/iam_cluster_autoscaler"
+
+  project_name                = var.project_name
+  openid_connect_provider_arn = module.oidc.openid_connect_provider_arn
+}
+
+module "eks_autoscaler" {
+  source = "../../modules/helm_autoscaler"
+
+  region                          = var.region
+  auto_scale_options              = var.auto_scale_options
+  autoscaler_role_arn             = module.eks_autoscaler_role.role_arn
+  eks_node_group_autoscaling_name = module.spot_nodes.eks_node_group_autoscaling_name
+
+  depends_on = [
+    module.eks,
+    module.spot_nodes,
+    module.eks_autoscaler_role,
   ]
 }

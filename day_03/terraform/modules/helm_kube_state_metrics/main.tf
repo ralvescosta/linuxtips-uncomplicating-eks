@@ -5,18 +5,18 @@ resource "helm_release" "kube_state_metrics" {
   namespace        = "kube-system"
   create_namespace = true
 
-  set = [
-    {
-      name  = "apiService.create"
-      value = "true"
-    },
-    {
-      name  = "metricLabelsAllowlist[0]"
-      value = "nodes=[*]"
-    },
-    {
-      name  = "metricAnnotationsAllowList[0]"
-      value = "nodes=[*]"
-    }
-  ]
+  set {
+    name  = "apiService.create"
+    value = "true"
+  }
+
+  set {
+    name  = "metricLabelsAllowlist[0]"
+    value = "nodes=[*]"
+  }
+
+  set {
+    name  = "metricAnnotationsAllowList[0]"
+    value = "nodes=[*]"
+  }
 }
