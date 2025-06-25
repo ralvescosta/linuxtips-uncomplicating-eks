@@ -121,3 +121,29 @@ module "eks_autoscaler" {
     module.eks_autoscaler_role,
   ]
 }
+
+module "eks_node_termination_handler_role" {
+  source = "../../modules/iam_node_termination_handler"
+
+  project_name                = var.project_name
+  openid_connect_provider_arn = module.oidc.openid_connect_provider_arn
+}
+
+module "sqs_node_termination_handler" {
+  source       = "../../modules/sqs_node_termination_handler"
+  project_name = var.project_name
+}
+
+module "helm_node_termination_handler" {
+  source = "../../modules/helm_node_termination_handler"
+
+  region                    = var.region
+  node_termination_role_arn = module.eks_node_termination_handler_role.role_arn
+  sqs_queue_url             = module.sqs_node_termination_handler.sqs_queue_url
+
+  depends_on = [
+    module.eks,
+    module.eks_node_termination_handler_role,
+    module.sqs_node_termination_handler,
+  ]
+}
