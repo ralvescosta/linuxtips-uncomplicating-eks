@@ -22,3 +22,9 @@ output "cluster_oidc_issuer" {
   description = "The OIDC issuer URL for the EKS cluster"
   value       = aws_eks_cluster.main.identity[0].oidc[0].issuer
 }
+
+
+output "cluster_security_group_id" {
+  description = "The security group ID for the EKS cluster"
+  value       = aws_eks_cluster.main.vpc_config[0].cluster_security_group_id
+}

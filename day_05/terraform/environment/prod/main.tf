@@ -1,18 +1,15 @@
 module "kms" {
-  source = "../../modules/kms"
-
+  source       = "../../modules/kms"
   project_name = var.project_name
 }
 
 module "eks_cluster_role" {
-  source = "../../modules/iam_cluster"
-
+  source       = "../../modules/iam_cluster"
   project_name = var.project_name
 }
 
 module "eks_nodes_role" {
-  source = "../../modules/iam_nodes"
-
+  source       = "../../modules/iam_nodes"
   project_name = var.project_name
 }
 
@@ -25,18 +22,16 @@ module "eks" {
   private_subnet_ids   = data.aws_ssm_parameter.private_subnets[*].value
   kms_key_arn          = module.kms.arn
 
-  depends_on = [ 
-    module.kms, 
+  depends_on = [
+    module.kms,
     module.eks_cluster_role,
   ]
 }
 
 module "oidc" {
-  source = "../../modules/oidc"
-
+  source                 = "../../modules/oidc"
   aws_eks_cluster_issuer = module.eks.cluster_oidc_issuer
-
-  depends_on = [ module.eks ]
+  depends_on             = [module.eks]
 }
 
 module "addons" {
@@ -48,7 +43,7 @@ module "addons" {
   addon_kubeproxy_version    = var.addon_kubeproxy_version
   addon_pod_identity_version = var.addon_pod_identity_version
 
-  depends_on = [ 
+  depends_on = [
     module.eks,
     module.oidc,
   ]
@@ -60,7 +55,7 @@ module "nodes_entry" {
   aws_eks_cluster_id = module.eks.cluster_id
   eks_nodes_role_arn = module.eks_nodes_role.role_arn
 
-  depends_on = [ 
+  depends_on = [
     module.eks,
     module.eks_nodes_role,
   ]
@@ -69,14 +64,14 @@ module "nodes_entry" {
 module "nodes" {
   source = "../../modules/nodes"
 
-  project_name            = var.project_name
-  aws_eks_cluster_id      = module.eks.cluster_id
-  aws_eks_nodes_role_arn  = module.eks_nodes_role.role_arn
-  auto_scale_options      = var.auto_scale_options
-  nodes_instance_sizes    = var.nodes_instance_sizes
-  pod_subnet_ids          = data.aws_ssm_parameter.pod_subnets[*].value
+  project_name           = var.project_name
+  aws_eks_cluster_id     = module.eks.cluster_id
+  aws_eks_nodes_role_arn = module.eks_nodes_role.role_arn
+  auto_scale_options     = var.auto_scale_options
+  nodes_instance_sizes   = var.nodes_instance_sizes
+  pod_subnet_ids         = data.aws_ssm_parameter.pod_subnets[*].value
 
-  depends_on = [ 
+  depends_on = [
     module.eks_nodes_role,
     module.eks,
     module.nodes_entry,
@@ -86,7 +81,7 @@ module "nodes" {
 module "kube_metrics_server" {
   source = "../../modules/helm_metrics_server"
 
-  depends_on = [ 
+  depends_on = [
     module.eks,
     module.nodes_entry,
     module.nodes,
@@ -96,9 +91,60 @@ module "kube_metrics_server" {
 module "kube_state_metrics" {
   source = "../../modules/helm_kube_state_metrics"
 
-  depends_on = [ 
+  depends_on = [
     module.eks,
     module.nodes_entry,
     module.nodes,
+  ]
+}
+
+module "karpenter_role" {
+  source       = "../../modules/iam_karpenter"
+  project_name = var.project_name
+}
+
+module "sqs_karpenter" {
+  source       = "../../modules/sqs_karpenter"
+  project_name = var.project_name
+
+  depends_on = [
+    module.karpenter_role,
+  ]
+}
+
+module "helm_karpenter" {
+  source = "../../modules/helm_karpenter"
+
+  project_name                    = var.project_name
+  karpenter_role_arn              = module.karpenter_role.role_arn
+  aws_eks_cluster_endpoint        = module.eks.cluster_endpoint
+  aws_nodes_instance_profile_name = module.eks_nodes_role.instance_profile_name
+  aws_sqs_queue_karpenter_name    = module.sqs_karpenter.sqs_queue_name
+
+  depends_on = [
+    module.eks,
+    module.nodes_entry,
+    module.nodes,
+    module.karpenter_role,
+    module.sqs_karpenter
+  ]
+}
+
+module "karpenter" {
+  source = "../../modules/kubectl_karpenter"
+
+  subnet_ids                        = var.ssm_pod_subnets[*].value
+  aws_eks_cluster_security_group_id = module.eks.cluster_security_group_id
+  aws_nodes_instance_profile_name   = module.eks_nodes_role.instance_profile_name
+  aws_eks_amis                      = data.aws_ssm_parameter.karpenter_ami[*].value
+  karpenter_capacity                = var.karpenter_capacity
+
+  depends_on = [
+    module.eks,
+    module.nodes_entry,
+    module.nodes,
+    module.karpenter_role,
+    module.sqs_karpenter,
+    module.helm_karpenter
   ]
 }

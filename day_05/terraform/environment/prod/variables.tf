@@ -8,13 +8,13 @@ variable "region" {
 
 variable "use_localstack" {
   type    = bool
-  default = true 
+  default = true
 }
 
 variable "k8s_version" {
   type        = string
   description = "Kubernetes version for the project"
-  default = "1.31"
+  default     = "1.31"
 }
 
 variable "ssm_vpc" {
@@ -73,4 +73,17 @@ variable "addon_pod_identity_version" {
   type        = string
   default     = "v1.3.4-eksbuild.1"
   description = "Pod Identity Addon version"
+}
+
+variable "karpenter_capacity" {
+  type = list(object({
+    name               = string
+    workload           = string
+    ami_family         = string
+    ami_ssm            = string
+    instance_family    = list(string)
+    instance_sizes     = list(string)
+    capacity_type      = list(string)
+    availability_zones = list(string)
+  }))
 }
