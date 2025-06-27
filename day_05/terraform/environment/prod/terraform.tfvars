@@ -37,8 +37,8 @@ nodes_instance_sizes = [
 
 karpenter_capacity = [
   {
-    name               = "${var.project_name}-karpenter-capacity"
-    workload           = "${var.project_name}-karpenter-workload"
+    name               = "linuxtips-uncomplicating-eks-karpenter-capacity"
+    workload           = "linuxtips-uncomplicating-eks-karpenter-workload"
     ami_family         = "AL2023"
     ami_ssm            = "/aws/service/eks/optimized-ami/1.31/amazon-linux-2023/x86_64/standard/recommended/image_id"
     instance_family    = ["t3", "t3a"]

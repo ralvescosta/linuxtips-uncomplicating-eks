@@ -4,7 +4,7 @@ data "aws_iam_policy_document" "karpenter" {
     effect  = "Allow"
 
     principals {
-      identifiers = [aws_iam_openid_connect_provider.eks.arn]
+      identifiers = [var.openid_connect_provider_arn]
       type        = "Federated"
     }
   }

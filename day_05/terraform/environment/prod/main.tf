@@ -99,8 +99,10 @@ module "kube_state_metrics" {
 }
 
 module "karpenter_role" {
-  source       = "../../modules/iam_karpenter"
-  project_name = var.project_name
+  source = "../../modules/iam_karpenter"
+
+  project_name                = var.project_name
+  openid_connect_provider_arn = module.oidc.oidc_provider_arn
 }
 
 module "sqs_karpenter" {
@@ -133,7 +135,7 @@ module "helm_karpenter" {
 module "karpenter" {
   source = "../../modules/kubectl_karpenter"
 
-  subnet_ids                        = var.ssm_pod_subnets[*].value
+  subnet_ids                        = data.aws_ssm_parameter.pod_subnets[*].value
   aws_eks_cluster_security_group_id = module.eks.cluster_security_group_id
   aws_nodes_instance_profile_name   = module.eks_nodes_role.instance_profile_name
   aws_eks_amis                      = data.aws_ssm_parameter.karpenter_ami[*].value
