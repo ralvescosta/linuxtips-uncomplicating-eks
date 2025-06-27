@@ -1,1 +1,5 @@
-# LinuxTips Uncomplicating EKS Day 06 -
+# LinuxTips Uncomplicating EKS Day 06 - Karpenter Groupless + Fargate Profiles
+
+In this sixth class, you will learn a strategic and innovative approach to provisioning Kubernetes clusters capable of handling high volatility, combining the best of the worlds of Karpenter and Fargate. We will implement a hybrid and robust model where critical namespaces—such as karpenter and kube-system—run securely and stably in Fargate Profiles, completely free of operational management. The remaining applications will benefit from the flexibility and efficiency of Karpenter Groupless' automatic provisioning, completely eliminating the need for traditional Node Groups. You will leave this class with a clear and efficient strategy, ideal for environments that require extreme stability, dynamic flexibility, and simplified management of computing resources. The instructor live us the terraform made during the classes in [this repository](https://github.com/msfidelis/linuxtips-curso-containers-aws-eks-vanilla/tree/aula/karpenter_groupless)
+
+The resources that was created was:
