@@ -1,0 +1,3 @@
+# LinuxTips Uncomplicating EKS Day 12 - kube-prometheus-stack e Basic Metrics Instrumentation
+
+In this twelfth lesson, you will learn how to create a simple and effective observability strategy for your Kubernetes environment using **kube-prometheus-stack**. Together, we will provision a complete stack that includes **Prometheus Server** for metrics collection and **Grafana** for practical and intuitive data visualization. You will also understand how to manage the persistence of these metrics, ensuring consistent history and analysis over time. By the end, you will have a minimal and functional observability solution, allowing you to easily monitor your applications and quickly identify bottlenecks or performance issues in your EKS cluster.

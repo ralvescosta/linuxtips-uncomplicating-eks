@@ -1,0 +1,3 @@
+# LinuxTips Uncomplicating EKS Day 16 - Productizing Helm Charts for EKS
+
+In this sixteenth lesson, we will consolidate everything we have learned so far into a single, powerful artifact: a Helm Chart productized for EKS, ready to be reused in different applications with security, efficiency, and high scalability. You will learn how to package good deployment practices into a single chart, including request and limit configuration, autoscaling strategies with Keda, dynamic node provisioning with Karpenter, and progressive deployments with Argo Rollouts, using Canary Releases and AnalysisTemplates.

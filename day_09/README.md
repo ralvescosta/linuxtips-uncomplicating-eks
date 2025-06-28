@@ -1,1 +1,3 @@
-# LinuxTips Uncomplicating EKS Day 09 -
+# LinuxTips Uncomplicating EKS Day 09 - Pod Identity, EBS S3 e EFS CSI Addons
+
+In the ninth lesson, we will dive into the world of persistent and stateful data storage in Kubernetes integrated with the main AWS services. You will learn in practice how to connect your Pods directly to block storage using EBS CSI, ensuring performance and security for applications that need dedicated persistent volumes. In addition, we will explore dynamic and shared writing with EFS CSI, allowing multiple Pods to simultaneously access shared volumes, ideal for collaborative and scalable workloads. Finally, you will learn about S3 CSI, further expanding the possibilities by integrating your Pods directly with Amazon S3 for object storage, ensuring unlimited flexibility and durability. By the end of this lesson, you will master the main storage strategies in EKS, choosing the ideal solution for each scenario in a practical and assertive way.

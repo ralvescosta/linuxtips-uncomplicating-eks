@@ -1,0 +1,3 @@
+# LinuxTips Uncomplicating EKS Day 11 - EKS Automode
+
+In the eleventh lesson, we will consolidate all the knowledge acquired so far in a new approach: **EKS Automode**. You will learn how to take advantage of the fully managed and serverless resources of EKS, further simplifying your operation through a true "autopilot" for Kubernetes clusters. We will explore all the main features that EKS Automode offers, performing deployments without having to worry about complex infrastructure management details.

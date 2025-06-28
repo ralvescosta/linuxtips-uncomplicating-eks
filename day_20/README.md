@@ -1,0 +1,3 @@
+# LinuxTips Uncomplicating EKS Day 20 - Final Project 03 - Observability Cluster - Grafana Tempo
+
+In this class, we continue with the final observability project, this time focusing on the deployment of Grafana Tempo, the native distributed tracing solution of the Grafana stack. You will learn how to configure Tempo in scalable and resilient mode, using S3 as a storage backend to ensure durability and performance. We will implement autoscaling to adapt the infrastructure to the demand for traces, and we will expose the service internally in a secure way. In addition, we will configure the OpenTelemetry Collector to send traces from multiple Kubernetes clusters in a standardized way, ensuring end-to-end distributed observability.

@@ -1,0 +1,3 @@
+# LinuxTips Uncomplicating EKS Day 21 - Final Project 04 - Observability Cluster - Grafana Mimir
+
+In this class, we will focus on Grafana Mimir, which will be instrumented to receive and aggregate metrics from multiple clusters in a centralized manner. We will learn how to configure local Prometheus Server instances to send the collected metrics to Mimir's internal endpoint and how to use this dynamic approach to create a long-term Prometheus that is scalable and resilient to ingest and serve data from multiple sources.

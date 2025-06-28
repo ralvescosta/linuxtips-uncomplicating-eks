@@ -1,0 +1,3 @@
+# LinuxTips Uncomplicating EKS Day 10 - External Secrets with AWS Secrets Manager
+
+In this tenth lesson, you will learn how to manage secrets and sensitive configurations securely and conveniently in Kubernetes using External Secrets integrated with AWS Secrets Manager and Parameter Store. In a simple and efficient way, we will automate the secure injection of secrets directly into your Pods, avoiding undue exposure of critical information and facilitating the centralized management of your secrets. In the end, you will have a robust and secure solution to protect your sensitive data, ensuring greater peace of mind and compliance for your applications running on EKS.

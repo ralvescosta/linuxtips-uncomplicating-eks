@@ -1,0 +1,3 @@
+# LinuxTips Uncomplicating EKS Day 22 - Final Project 05 - Observability Cluster - Grafana Stack Datasource Integration
+
+In this class we will understand the main correlation mechanisms of Grafana Stack, where we will learn how to correlate previously generated traces with application logs, understand how to use metrics to draw service maps of application dependencies and optimize the three pillars of observability in one place in a scalable way.
