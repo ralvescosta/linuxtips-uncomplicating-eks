@@ -119,8 +119,8 @@ module "sqs_karpenter" {
   ]
 }
 
-module "helm_karpenter" {
-  source = "../../modules/helm_karpenter"
+module "helm_karpenter_controller" {
+  source = "../../modules/helm_karpenter_controller"
 
   project_name                    = var.project_name
   karpenter_role_arn              = module.karpenter_role.role_arn
@@ -138,7 +138,7 @@ module "helm_karpenter" {
 }
 
 module "karpenter" {
-  source = "../../modules/kubectl_karpenter"
+  source = "../../modules/karpenter_crd"
 
   subnet_ids                        = data.aws_ssm_parameter.pod_subnets[*].value
   aws_eks_cluster_security_group_id = module.eks.cluster_security_group_id
@@ -152,6 +152,6 @@ module "karpenter" {
     module.nodes,
     module.karpenter_role,
     module.sqs_karpenter,
-    module.helm_karpenter
+    module.helm_karpenter_controller
   ]
 }
