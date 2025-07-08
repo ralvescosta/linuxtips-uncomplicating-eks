@@ -30,9 +30,7 @@ module "eks" {
 
 module "oidc" {
   source = "../../modules/oidc"
-
   aws_eks_cluster_issuer = module.eks.cluster_oidc_issuer
-
   depends_on = [module.eks]
 }
 
@@ -65,6 +63,23 @@ module "nodes_entry" {
 
 module "spot_nodes" {
   source = "../../modules/nodes_spot"
+
+  project_name           = var.project_name
+  aws_eks_cluster_id     = module.eks.cluster_id
+  aws_eks_nodes_role_arn = module.eks_nodes_role.role_arn
+  auto_scale_options     = var.auto_scale_options
+  nodes_instance_sizes   = var.nodes_instance_sizes
+  pod_subnet_ids         = data.aws_ssm_parameter.pod_subnets[*].value
+
+  depends_on = [
+    module.eks_nodes_role,
+    module.eks,
+    module.nodes_entry,
+  ]
+}
+
+module "on_demand_nodes" { 
+  source = "../../modules/nodes_on_demand"
 
   project_name           = var.project_name
   aws_eks_cluster_id     = module.eks.cluster_id
