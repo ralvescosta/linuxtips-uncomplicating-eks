@@ -43,7 +43,7 @@ karpenter_capacity = [
     ami_family         = "AL2023"
     ami_ssm            = "/aws/service/eks/optimized-ami/1.31/amazon-linux-2023/x86_64/standard/recommended/image_id"
     instance_family    = ["t3", "t3a"]
-    instance_sizes     = ["large", "xlarge"]
+    instance_sizes     = ["micro", "micro"]
     capacity_type      = ["spot"]
     availability_zones = ["us-east-1a", "us-east-1b", "us-east-1c"]
   }

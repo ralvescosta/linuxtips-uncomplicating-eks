@@ -103,6 +103,11 @@ module "karpenter_role" {
 
   project_name                = var.project_name
   openid_connect_provider_arn = module.oidc.oidc_provider_arn
+
+  depends_on = [ 
+    module.oidc,
+    module.kube_state_metrics,
+  ]
 }
 
 module "sqs_karpenter" {
