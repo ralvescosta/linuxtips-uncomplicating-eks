@@ -1,18 +1,15 @@
 module "kms" {
   source = "../../modules/kms"
-
   project_name = var.project_name
 }
 
 module "eks_cluster_role" {
   source = "../../modules/iam_cluster"
-
   project_name = var.project_name
 }
 
 module "eks_nodes_role" {
   source = "../../modules/iam_nodes"
-
   project_name = var.project_name
 }
 
@@ -33,9 +30,7 @@ module "eks" {
 
 module "oidc" {
   source = "../../modules/oidc"
-
   aws_eks_cluster_issuer = module.eks.cluster_oidc_issuer
-
   depends_on = [ module.eks ]
 }
 
