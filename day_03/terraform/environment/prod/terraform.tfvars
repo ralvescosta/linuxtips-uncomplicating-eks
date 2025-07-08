@@ -1,6 +1,7 @@
-project_name = "linuxtips-uncomplicating-eks"
-region       = "us-east-1"
-ssm_vpc      = "/linuxtips-uncomplicating-eks/vpc/id"
+project_name   = "linuxtips-uncomplicating-eks"
+region         = "us-east-1"
+ssm_vpc        = "/linuxtips-uncomplicating-eks/vpc/id"
+use_localstack = false
 
 ssm_public_subnets = [
   "/linuxtips-uncomplicating-eks/subnets/public/us-east-1a/linuxtips-uncomplicating-eks-public-1a",

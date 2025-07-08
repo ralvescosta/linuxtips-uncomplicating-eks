@@ -1,6 +1,7 @@
-project_name = "linuxtips-uncomplicating-eks"
-region       = "us-east-1"
-ssm_vpc      = "/linuxtips-uncomplicating-eks/vpc/id"
+project_name   = "linuxtips-uncomplicating-eks"
+region         = "us-east-1"
+ssm_vpc        = "/linuxtips-uncomplicating-eks/vpc/id"
+use_localstack = false
 
 ssm_public_subnets = [
   "/linuxtips-uncomplicating-eks/subnets/public/us-east-1a/linuxtips-uncomplicating-eks-public-1a",
@@ -30,9 +31,9 @@ auto_scale_options = {
 }
 
 nodes_instance_sizes = [
-  "t3.large",
-  "t3.large",
-  "t3.large"
+  "t3.micro",
+  "t3.micro",
+  "t3.micro"
 ]
 
 karpenter_capacity = [

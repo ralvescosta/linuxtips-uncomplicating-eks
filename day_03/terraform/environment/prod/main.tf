@@ -29,9 +29,9 @@ module "eks" {
 }
 
 module "oidc" {
-  source = "../../modules/oidc"
+  source                 = "../../modules/oidc"
   aws_eks_cluster_issuer = module.eks.cluster_oidc_issuer
-  depends_on = [module.eks]
+  depends_on             = [module.eks]
 }
 
 module "addons" {
@@ -78,7 +78,7 @@ module "spot_nodes" {
   ]
 }
 
-module "on_demand_nodes" { 
+module "on_demand_nodes" {
   source = "../../modules/nodes_on_demand"
 
   project_name           = var.project_name
