@@ -102,6 +102,7 @@ module "kube_metrics_server" {
     module.eks,
     module.nodes_entry,
     module.spot_nodes,
+    module.on_demand_nodes,
   ]
 }
 
@@ -112,6 +113,7 @@ module "kube_state_metrics" {
     module.eks,
     module.nodes_entry,
     module.spot_nodes,
+    module.on_demand_nodes,
   ]
 }
 
@@ -120,6 +122,11 @@ module "eks_autoscaler_role" {
 
   project_name                = var.project_name
   openid_connect_provider_arn = module.oidc.oidc_provider_arn
+
+  depends_on = [
+    module.spot_nodes,
+    module.on_demand_nodes,
+  ]
 }
 
 module "eks_autoscaler" {
@@ -133,6 +140,7 @@ module "eks_autoscaler" {
   depends_on = [
     module.eks,
     module.spot_nodes,
+    module.on_demand_nodes,
     module.eks_autoscaler_role,
   ]
 }
@@ -142,11 +150,20 @@ module "eks_node_termination_handler_role" {
 
   project_name                = var.project_name
   openid_connect_provider_arn = module.oidc.oidc_provider_arn
+
+  depends_on = [
+    module.oidc,
+    module.eks_autoscaler,
+  ]
 }
 
 module "sqs_node_termination_handler" {
   source       = "../../modules/sqs_node_termination_handler"
   project_name = var.project_name
+
+  depends_on = [
+    module.eks_node_termination_handler_role,
+  ]
 }
 
 module "helm_node_termination_handler" {
