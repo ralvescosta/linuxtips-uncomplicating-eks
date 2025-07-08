@@ -14,7 +14,7 @@ variable "use_localstack" {
 variable "k8s_version" {
   type        = string
   description = "Kubernetes version for the project"
-  default = "1.31"
+  default = "1.32"
 }
 
 variable "ssm_vpc" {
