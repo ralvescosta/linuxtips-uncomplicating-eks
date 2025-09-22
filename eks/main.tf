@@ -19,7 +19,7 @@ module "eks" {
   project_name         = var.project_name
   k8s_version          = var.k8s_version
   eks_cluster_role_arn = module.eks_cluster_role.role_arn
-  private_subnet_ids   = data.aws_ssm_parameter.private_subnets[*].value
+  private_subnet_ids   = var.private_subnets
   kms_key_arn          = module.kms.arn
 
   depends_on = [ 
@@ -69,7 +69,7 @@ module "nodes" {
   aws_eks_nodes_role_arn  = module.eks_nodes_role.role_arn
   auto_scale_options      = var.auto_scale_options
   nodes_instance_sizes    = var.nodes_instance_sizes
-  pod_subnet_ids          = data.aws_ssm_parameter.pod_subnets[*].value
+  pod_subnet_ids          = var.pod_subnets
 
   depends_on = [ 
     module.eks_nodes_role,

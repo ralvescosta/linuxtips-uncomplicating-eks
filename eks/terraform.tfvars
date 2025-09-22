@@ -1,27 +1,23 @@
 project_name   = "linuxtips-uncomplicating-eks"
 region         = "us-east-1"
-ssm_vpc        = "/linuxtips-uncomplicating-eks/vpc/id"
 use_localstack = false
 
-ssm_public_subnets = [
-  "/linuxtips-uncomplicating-eks/subnets/public/us-east-1a/linuxtips-uncomplicating-eks-public-1a",
-  "/linuxtips-uncomplicating-eks/subnets/public/us-east-1b/linuxtips-uncomplicating-eks-public-1b",
-  "/linuxtips-uncomplicating-eks/subnets/public/us-east-1c/linuxtips-uncomplicating-eks-public-1c"
+vpc_id = "vpc-0123456789abcdef0"
+
+public_subnets = [
+  "subnet-0a12345b6cdef7890",
+  "subnet-1a12345b6cdef7890",
+  "subnet-2a12345b6cdef7890"
 ]
 
-ssm_private_subnets = [
-  "/linuxtips-uncomplicating-eks/subnets/private/us-east-1a/linuxtips-uncomplicating-eks-private-1a",
-  "/linuxtips-uncomplicating-eks/subnets/private/us-east-1b/linuxtips-uncomplicating-eks-private-1b",
-  "/linuxtips-uncomplicating-eks/subnets/private/us-east-1c/linuxtips-uncomplicating-eks-private-1c",
-  "/linuxtips-uncomplicating-eks/subnets/database/us-east-1a/linuxtips-uncomplicating-eks-database-1a",
-  "/linuxtips-uncomplicating-eks/subnets/database/us-east-1b/linuxtips-uncomplicating-eks-database-1b",
-  "/linuxtips-uncomplicating-eks/subnets/database/us-east-1c/linuxtips-uncomplicating-eks-database-1c"
+private_subnets = [
+  "subnet-0b12345b6cdef7890",
+  "subnet-1b12345b6cdef7890",
+  "subnet-2b12345b6cdef7890"
 ]
 
-ssm_pod_subnets = [
-  "/linuxtips-uncomplicating-eks/subnets/private/us-east-1a/linuxtips-uncomplicating-eks-pods-1a",
-  "/linuxtips-uncomplicating-eks/subnets/private/us-east-1b/linuxtips-uncomplicating-eks-pods-1b",
-  "/linuxtips-uncomplicating-eks/subnets/private/us-east-1c/linuxtips-uncomplicating-eks-pods-1c"
+pod_subnets = [
+  
 ]
 
 auto_scale_options = {

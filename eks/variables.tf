@@ -1,3 +1,8 @@
+variable "use_localstack" {
+  type    = bool
+  default = true 
+}
+
 variable "project_name" {
   type = string
 }
@@ -6,10 +11,6 @@ variable "region" {
   type = string
 }
 
-variable "use_localstack" {
-  type    = bool
-  default = true 
-}
 
 variable "k8s_version" {
   type        = string
@@ -17,24 +18,24 @@ variable "k8s_version" {
   default = "1.32"
 }
 
-variable "ssm_vpc" {
+variable "vpc_id" {
   type        = string
-  description = "SSM ID where the VPC id for the project creation is stored"
+  description = "VPC ID for the project"
 }
 
-variable "ssm_public_subnets" {
+variable "public_subnets" {
   type        = list(string)
-  description = "List of SSM IDs where the project's public subnets are stored"
+  description = "List of public subnets for the project"
 }
 
-variable "ssm_private_subnets" {
+variable "private_subnets" {
   type        = list(string)
-  description = "List of SSM IDs where the project's private subnets are stored"
+  description = "List of private subnets for the project"
 }
 
-variable "ssm_pod_subnets" {
+variable "pod_subnets" {
   type        = list(string)
-  description = "List of SSM IDs where the project's pod subnets are stored"
+  description = "List of pod subnets for the project"
 }
 
 variable "auto_scale_options" {
