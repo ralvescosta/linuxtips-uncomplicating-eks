@@ -2,22 +2,21 @@ project_name   = "linuxtips-uncomplicating-eks"
 region         = "us-east-1"
 use_localstack = false
 
-vpc_id = "vpc-0123456789abcdef0"
+vpc_id = "vpc-03b22061d7648182a"
 
 public_subnets = [
-  "subnet-0a12345b6cdef7890",
-  "subnet-1a12345b6cdef7890",
-  "subnet-2a12345b6cdef7890"
+  "subnet-095401481eb512d9e",
+  "subnet-020dff4417a686247",
 ]
 
 private_subnets = [
-  "subnet-0b12345b6cdef7890",
-  "subnet-1b12345b6cdef7890",
-  "subnet-2b12345b6cdef7890"
+  "subnet-0cd10a3a924e77ace",
+  "subnet-030e5f523322c8b9f"
 ]
 
 pod_subnets = [
-  
+  "subnet-06035a570ea949c58",
+  "subnet-07b28e126f5e958da"
 ]
 
 auto_scale_options = {

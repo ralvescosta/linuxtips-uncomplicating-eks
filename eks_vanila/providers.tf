@@ -1,5 +1,6 @@
 provider "aws" {
   region                      = var.region
+  profile                     = "personal"
   s3_use_path_style           = var.use_localstack 
   skip_credentials_validation = var.use_localstack
   skip_metadata_api_check     = var.use_localstack 

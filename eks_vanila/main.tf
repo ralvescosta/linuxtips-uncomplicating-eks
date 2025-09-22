@@ -1,20 +1,20 @@
 module "kms" {
-  source = "../../modules/kms"
+  source = "./modules/kms"
   project_name = var.project_name
 }
 
 module "eks_cluster_role" {
-  source = "../../modules/iam_cluster"
+  source = "./modules/iam_cluster"
   project_name = var.project_name
 }
 
 module "eks_nodes_role" {
-  source = "../../modules/iam_nodes"
+  source = "./modules/iam_nodes"
   project_name = var.project_name
 }
 
 module "eks" {
-  source = "../../modules/eks"
+  source = "./modules/eks"
 
   project_name         = var.project_name
   k8s_version          = var.k8s_version
@@ -29,13 +29,13 @@ module "eks" {
 }
 
 module "oidc" {
-  source = "../../modules/oidc"
+  source = "./modules/oidc"
   aws_eks_cluster_issuer = module.eks.cluster_oidc_issuer
   depends_on = [ module.eks ]
 }
 
 module "addons" {
-  source = "../../modules/addons"
+  source = "./modules/addons"
 
   aws_eks_cluster_name       = module.eks.cluster_name
   addon_cni_version          = var.addon_cni_version
@@ -50,7 +50,7 @@ module "addons" {
 }
 
 module "nodes_entry" {
-  source = "../../modules/nodes_entry"
+  source = "./modules/nodes_entry"
 
   aws_eks_cluster_id = module.eks.cluster_id
   eks_nodes_role_arn = module.eks_nodes_role.role_arn
@@ -62,7 +62,7 @@ module "nodes_entry" {
 }
 
 module "nodes" {
-  source = "../../modules/nodes"
+  source = "./modules/nodes_spot"
 
   project_name            = var.project_name
   aws_eks_cluster_id      = module.eks.cluster_id
@@ -79,7 +79,7 @@ module "nodes" {
 }
 
 module "kube_metrics_server" {
-  source = "../../modules/helm_metrics_server"
+  source = "./modules/helm_metrics_server"
 
   depends_on = [ 
     module.eks,
@@ -89,7 +89,7 @@ module "kube_metrics_server" {
 }
 
 module "kube_state_metrics" {
-  source = "../../modules/helm_kube_state_metrics"
+  source = "./modules/helm_kube_state_metrics"
 
   depends_on = [ 
     module.eks,
