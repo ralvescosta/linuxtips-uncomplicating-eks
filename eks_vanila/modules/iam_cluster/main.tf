@@ -1,12 +1,10 @@
 data "aws_iam_policy_document" "cluster" {
-
   version = "2012-10-17"
 
   statement {
     actions = [
       "sts:AssumeRole"
     ]
-
 
     principals {
       type = "Service"
@@ -15,7 +13,6 @@ data "aws_iam_policy_document" "cluster" {
       ]
     }
   }
-
 }
 
 resource "aws_iam_role" "eks_cluster_role" {

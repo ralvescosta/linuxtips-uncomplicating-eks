@@ -25,6 +25,7 @@ module "eks" {
   depends_on = [ 
     module.kms, 
     module.eks_cluster_role,
+    eks_nodes_role,
   ]
 }
 
