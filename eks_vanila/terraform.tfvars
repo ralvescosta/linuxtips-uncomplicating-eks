@@ -26,6 +26,6 @@ auto_scale_options = {
 }
 
 nodes_instance_sizes = [
-  "t3.micro",
-  "t3.micro"
+  "t3.small",
+  "t3.small"
 ]
