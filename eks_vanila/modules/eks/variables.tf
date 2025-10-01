@@ -7,7 +7,7 @@ variable "project_name" {
 variable "k8s_version" {
   type        = string
   description = "Kubernetes version for the project"
-  default     = "1.31"
+  default     = "1.33"
 }
 
 variable "eks_cluster_role_arn" {
@@ -25,4 +25,3 @@ variable "kms_key_arn" {
   type        = string
   description = "ARN of the KMS key for EKS encryption"
 }
-
