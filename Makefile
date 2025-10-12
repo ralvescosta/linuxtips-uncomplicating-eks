@@ -89,3 +89,10 @@ localstack-tf-state::
   	s3api put-bucket-versioning \
   	--bucket linuxtips-uncomplicating-eks-tf-state \
   	--versioning-configuration Status=Enabled
+
+localstack-kubeconfig:
+	@aws eks update-kubeconfig \
+	--name linuxtips-uncomplicating-eks \
+	--region us-east-1 \
+	--profile localstack \
+	--endpoint-url http://localhost:4566

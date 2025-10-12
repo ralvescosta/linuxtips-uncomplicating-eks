@@ -4,6 +4,10 @@ resource "helm_release" "kube_state_metrics" {
   chart            = "kube-state-metrics"
   namespace        = "kube-system"
   create_namespace = true
+  version          = "6.3.0"
+
+  wait = true
+  replace = true
 
   values = [<<-YAML
     apiService:
