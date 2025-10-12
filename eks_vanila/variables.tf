@@ -11,6 +11,11 @@ variable "region" {
   type = string
 }
 
+variable "profile" {
+  type        = string
+  description = "AWS CLI profile to use"
+  default     = "personal"
+}
 
 variable "k8s_version" {
   type        = string
