@@ -7,6 +7,9 @@ vanila-apply:
 vanila-destroy:
 	@cd eks_vanila && terraform destroy -auto-approve
 
+vanila-update:
+	@cd eks_vanila && terraform init -upgrade
+
 vpc:
 	@aws ec2 describe-vpcs --endpoint-url=http://localhost:4566 --profile localstack
 
