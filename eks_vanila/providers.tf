@@ -12,13 +12,13 @@ provider "aws" {
     cloudwatch             = var.use_localstack ? "http://localhost:4566" : null
     dynamodb               = var.use_localstack ? "http://localhost:4566" : null
     cloudwatchlogs         = var.use_localstack ? "http://localhost:4566" : null
-    cloudwatchlog          = var.use_localstack ? "http://localhost:4566" : null
+    # cloudwatchlog          = var.use_localstack ? "http://localhost:4566" : null
     es                     = var.use_localstack ? "http://localhost:4566" : null
     ecs                    = var.use_localstack ? "http://localhost:4566" : null
     ec2                    = var.use_localstack ? "http://localhost:4566" : null
     eks                    = var.use_localstack ? "http://localhost:4566" : null
     ecr                    = var.use_localstack ? "http://localhost:4566" : null
-    elb                    = var.use_localstack ? "http://localhost:4566" : null   
+    # elb                    = var.use_localstack ? "http://localhost:4566" : null   
     elasticloadbalancing   = var.use_localstack ? "http://localhost:4566" : null   
     elasticloadbalancingv2 = var.use_localstack ? "http://localhost:4566" : null   
     firehose               = var.use_localstack ? "http://localhost:4566" : null

@@ -20,7 +20,7 @@ variable "profile" {
 variable "k8s_version" {
   type        = string
   description = "Kubernetes version for the project"
-  default = "1.32"
+  default = "1.33"
 }
 
 variable "vpc_id" {
@@ -59,24 +59,24 @@ variable "nodes_instance_sizes" {
 
 variable "addon_cni_version" {
   type        = string
-  default     = "v1.18.3-eksbuild.2"
+  default     = "v1.20.1-eksbuild.3"
   description = "VPC CNI Addon version"
 }
 
 variable "addon_coredns_version" {
   type        = string
-  default     = "v1.11.3-eksbuild.1"
+  default     = "v1.12.4-eksbuild.1"
   description = "CoreDNS Addon version"
 }
 
 variable "addon_kubeproxy_version" {
   type        = string
-  default     = "v1.31.2-eksbuild.3"
+  default     = "v1.33.3-eksbuild.6"
   description = "Kube-Proxy Addon version"
 }
 
 variable "addon_pod_identity_version" {
   type        = string
-  default     = "v1.3.4-eksbuild.1"
+  default     = "v1.3.8-eksbuild.2"
   description = "Pod Identity Addon version"
 }
