@@ -3,12 +3,6 @@ module "kms" {
   project_name = var.project_name
 }
 
-module "tf_state" {
-  source = "./modules/tf_state"
-  s3_bucket_name = var.s3_bucket_name
-  environment    = var.environment
-}
-
 module "eks_cluster_role" {
   source = "./modules/iam_cluster"
   project_name = var.project_name
