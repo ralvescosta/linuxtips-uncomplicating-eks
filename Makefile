@@ -43,3 +43,35 @@ eks-kube-proxy-version:
   --kubernetes-version 1.33 \
   --profile personal \
   --region us-east-1
+
+localstack-coredns-version:
+	@aws eks describe-addon-versions \
+	--addon-name coredns \
+	--kubernetes-version 1.33 \
+	--profile localstack \
+	--endpoint-url=http://localhost:4566 \
+	--region us-east-1
+
+localstack-cni-version:
+	@aws eks describe-addon-versions \
+	--addon-name vpc-cni \
+	--kubernetes-version 1.33 \
+	--profile localstack \
+	--endpoint-url=http://localhost:4566 \
+	--region us-east-1
+
+localstack-pod-identity-version:
+	@aws eks describe-addon-versions \
+  --addon-name eks-pod-identity-agent \
+  --kubernetes-version 1.33 \
+	--profile localstack \
+	--endpoint-url=http://localhost:4566 \
+  --region us-east-1
+
+localstack-kube-proxy-version:
+	@aws eks describe-addon-versions \
+  --addon-name kube-proxy \
+  --kubernetes-version 1.33 \
+	--profile localstack \
+	--endpoint-url=http://localhost:4566 \
+  --region us-east-1

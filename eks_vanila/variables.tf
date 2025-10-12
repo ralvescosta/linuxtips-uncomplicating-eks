@@ -11,10 +11,22 @@ variable "region" {
   type = string
 }
 
+variable "environment" {
+  type        = string
+  description = "Environment for the project"
+  default     = "dev"
+}
+
 variable "profile" {
   type        = string
   description = "AWS CLI profile to use"
   default     = "personal"
+}
+
+variable "s3_bucket_name" {
+  type        = string
+  description = "S3 Bucket name for Terraform state"
+  default     = "linuxtips-uncomplicating-eks-tf-state"
 }
 
 variable "k8s_version" {

@@ -18,19 +18,23 @@ use_localstack = true
 # ]
 # ---
 ######## Localstack
-vpc_id = "vpc-c918ea52ba13fee51"
+vpc_id = "vpc-e94e57a1c1f3b99af"
 public_subnets = [
-  "subnet-74a9306165148ba5d",
-  "subnet-b5dceb871505ad5ba",
+  "subnet-fac10b6df80e9a4bf",
+  "subnet-b542ab291f6a3af1f",
 ]
 private_subnets = [
-  "subnet-0dde2031a89f519d9",
-  "subnet-31cefdd34d49ad914"
+  "subnet-915655d0992ebb547",
+  "subnet-3ebc499177829f15c"
 ]
 pod_subnets = [
-  "subnet-b32c292e9244b7ed1",
-  "subnet-2d4a7160eb5dfb8a5"
+  "subnet-46575818b1e0651ba",
+  "subnet-69c3cf43a2afeed2d"
 ]
+addon_cni_version="v1.20.0-eksbuild.1"
+addon_coredns_version="v1.12.2-eksbuild.4"
+addon_kubeproxy_version="v1.33.0-eksbuild.2"
+addon_pod_identity_version="v1.3.8-eksbuild.2"
 # ---
 
 auto_scale_options = {
