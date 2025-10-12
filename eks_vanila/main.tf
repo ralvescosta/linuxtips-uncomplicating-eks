@@ -59,6 +59,7 @@ module "nodes_entry" {
   depends_on = [ 
     module.eks,
     module.eks_nodes_role,
+    module.addons,
   ]
 }
 
@@ -73,8 +74,8 @@ module "nodes" {
   pod_subnet_ids          = var.pod_subnets
 
   depends_on = [ 
-    module.eks_nodes_role,
     module.eks,
+    module.eks_nodes_role,
     module.nodes_entry,
   ]
 }
@@ -84,7 +85,6 @@ module "kube_metrics_server" {
 
   depends_on = [ 
     module.eks,
-    module.nodes_entry,
     module.nodes,
   ]
 }
@@ -94,7 +94,6 @@ module "kube_state_metrics" {
 
   depends_on = [ 
     module.eks,
-    module.nodes_entry,
     module.nodes,
   ]
 }

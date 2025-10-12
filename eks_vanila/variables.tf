@@ -59,7 +59,7 @@ variable "nodes_instance_sizes" {
 
 variable "addon_cni_version" {
   type        = string
-  default     = "v1.20.1-eksbuild.3"
+  default     = "v1.20.3-eksbuild.1"
   description = "VPC CNI Addon version"
 }
 
@@ -71,7 +71,7 @@ variable "addon_coredns_version" {
 
 variable "addon_kubeproxy_version" {
   type        = string
-  default     = "v1.33.3-eksbuild.6"
+  default     = "v1.33.3-eksbuild.10"
   description = "Kube-Proxy Addon version"
 }
 
