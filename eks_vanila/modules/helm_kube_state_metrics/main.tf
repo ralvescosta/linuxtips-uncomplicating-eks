@@ -1,15 +1,17 @@
 resource "helm_release" "kube_state_metrics" {
   name             = "kube-state-metrics"
-  repository       = "https://prometheus-community.github.io/helm-charts"
+  repository       = "oci://ghcr.io/prometheus-community/charts"
   chart            = "kube-state-metrics"
   namespace        = "kube-system"
   create_namespace = true
   version          = "6.3.0"
 
-  wait = true
+  wait    = var.use_localstack ? false : true
   replace = true
 
-  values = [<<-YAML
+  values = var.use_localstack ? [<<-YAML
+    securityContext:
+      enabled: false
     apiService:
       create: true
     metricLabelsAllowlist:
@@ -17,5 +19,5 @@ resource "helm_release" "kube_state_metrics" {
     metricAnnotationsAllowList:
       - nodes=[*]
   YAML
-  ]
+  ] : []
 }

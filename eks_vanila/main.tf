@@ -83,6 +83,8 @@ module "nodes" {
 module "kube_metrics_server" {
   source = "./modules/helm_metrics_server"
 
+  use_localstack = var.use_localstack
+
   depends_on = [ 
     module.eks,
     module.nodes,
@@ -91,6 +93,8 @@ module "kube_metrics_server" {
 
 module "kube_state_metrics" {
   source = "./modules/helm_kube_state_metrics"
+
+  use_localstack = var.use_localstack
 
   depends_on = [ 
     module.eks,
