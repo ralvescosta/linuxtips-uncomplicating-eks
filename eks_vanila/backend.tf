@@ -9,7 +9,7 @@ terraform {
     # LocalStack configuration
     profile = "localstack"
     endpoints = {
-      s3  = "http://localhost:4566"
+      s3  = "http://s3.localhost.localstack.cloud:4566"
       sts = "http://localhost:4566"
     }
   }
