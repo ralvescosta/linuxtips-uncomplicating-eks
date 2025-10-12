@@ -5,48 +5,22 @@ resource "helm_release" "node_termination_handler" {
   chart      = "aws-node-termination-handler"
   repository = "https://aws.github.io/eks-charts/"
 
-  set = [
-    {
-      name  = "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
-      value = var.node_termination_role_arn
-    },
-    {
-      name  = "awsRegion"
-      value = var.region
-    },
-    {
-      name  = "queueURL"
-      value = var.sqs_queue_url
-    },
-    {
-      name  = "enableSqsTerminationDraining"
-      value = true
-    },
-    {
-      name  = "enableSpotInterruptionDraining"
-      value = true
-    },
-    {
-      name  = "enableRebalanceMonitoring"
-      value = true
-    },
-
-    {
-      name  = "enableRebalanceDraining"
-      value = true
-    },
-
-    {
-      name  = "enableScheduledEventDraining"
-      value = true
-    },
-    {
-      name  = "deleteSqsMsgIfNodeNotFound"
-      value = true
-    },
-    {
-      name  = "checkTagBeforeDraining"
-      value = false
-    }
-  ] 
+  values = [
+    yamlencode({
+      serviceAccount = {
+        annotations = {
+          "eks.amazonaws.com/role-arn" = var.node_termination_role_arn
+        }
+      }
+      awsRegion                         = var.region
+      queueURL                          = var.sqs_queue_url
+      enableSqsTerminationDraining      = true
+      enableSpotInterruptionDraining    = true
+      enableRebalanceMonitoring         = true
+      enableRebalanceDraining           = true
+      enableScheduledEventDraining      = true
+      deleteSqsMsgIfNodeNotFound        = true
+      checkTagBeforeDraining            = false
+    })
+  ]
 }
