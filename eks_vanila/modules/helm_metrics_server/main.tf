@@ -15,6 +15,14 @@ resource "helm_release" "metrics_server" {
       - nodes=[*]
     metricAnnotationsAllowList:
       - nodes=[*]
+    commonLabels:
+      - app.kubernetes.io/name=metrics-server
+      - app.kubernetes.io/instance=metrics-server
+      - app.kubernetes.io/version=5.10.2
+      - app.kubernetes.io/managed-by=Helm
+      - helm.sh/chart=metrics-server-7.4.12
+      - meta.helm.sh/release-name=metrics-server
+      - meta.helm.sh/release-namespace=kube-system
   YAML
   ]
 }

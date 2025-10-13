@@ -1,3 +1,6 @@
+localstack:
+	@localstack start -d
+
 vanila-plan:
 	@cd eks_vanila && terraform init && terraform plan
 
