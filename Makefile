@@ -79,19 +79,18 @@ localstack-kube-proxy-version:
 	--endpoint-url=http://localhost:4566 \
   --region us-east-1
 
-localstack-tf-state::
+localstack-tf-state:
 	@aws --profile localstack \
 		--region us-east-1 \
 		--endpoint-url http://localhost:4566 \
-  	s3api create-bucket \
-  	--bucket linuxtips-uncomplicating-eks-tf-state
-
-	@aws --profile localstack \
+	s3api create-bucket \
+	--bucket linuxtips-uncomplicating-eks-tf-state; \
+	aws --profile localstack \
 		--region us-east-1 \
 		--endpoint-url http://localhost:4566 \
-  	s3api put-bucket-versioning \
-  	--bucket linuxtips-uncomplicating-eks-tf-state \
-  	--versioning-configuration Status=Enabled
+	s3api put-bucket-versioning \
+	--bucket linuxtips-uncomplicating-eks-tf-state \
+	--versioning-configuration Status=Enabled
 
 localstack-kubeconfig:
 	@aws eks update-kubeconfig \

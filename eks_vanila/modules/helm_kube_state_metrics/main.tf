@@ -9,7 +9,7 @@ resource "helm_release" "kube_state_metrics" {
   wait    = var.use_localstack ? false : true
   replace = true
 
-  values = var.use_localstack ? [<<-YAML
+  values = [<<-YAML
     securityContext:
       enabled: false
     apiService:
@@ -18,6 +18,10 @@ resource "helm_release" "kube_state_metrics" {
       - nodes=[*]
     metricAnnotationsAllowList:
       - nodes=[*]
+    image:
+      repository: bitnamicharts/kube-state-metrics
+      tag: 5.1.0
+      pullPolicy: IfNotPresent
   YAML
-  ] : []
+  ]
 }

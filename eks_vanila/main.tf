@@ -99,5 +99,6 @@ module "kube_state_metrics" {
   depends_on = [ 
     module.eks,
     module.nodes,
+    module.kube_metrics_server,
   ]
 }
