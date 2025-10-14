@@ -6,7 +6,7 @@ resource "helm_release" "kube_state_metrics" {
   create_namespace = true
   version          = "6.3.0"
 
-  wait    = var.use_localstack ? false : true
+  wait    = false
   replace = true
 
   values = [<<-YAML
@@ -18,10 +18,6 @@ resource "helm_release" "kube_state_metrics" {
       - nodes=[*]
     metricAnnotationsAllowList:
       - nodes=[*]
-    image:
-      repository: bitnamicharts/kube-state-metrics
-      tag: 5.1.0
-      pullPolicy: IfNotPresent
   YAML
   ]
 }
