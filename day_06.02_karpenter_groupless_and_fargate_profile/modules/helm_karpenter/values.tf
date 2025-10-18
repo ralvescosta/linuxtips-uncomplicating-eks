@@ -19,7 +19,7 @@ variable "aws_nodes_instance_profile_name" {
   description = "Name of the instance profile for nodes"
 }
 
-variable "aws_sqs_queue_karpenter_name" {
-  type        = string
-  description = "Name of the SQS queue for Karpenter"
-}
+# variable "aws_sqs_queue_karpenter_name" {
+#   type        = string
+#   description = "Name of the SQS queue for Karpenter"
+# }

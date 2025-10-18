@@ -35,21 +35,6 @@ module "oidc" {
   depends_on             = [module.eks]
 }
 
-module "addons" {
-  source = "./modules/addons"
-
-  aws_eks_cluster_name       = module.eks.cluster_name
-  addon_cni_version          = var.addon_cni_version
-  addon_coredns_version      = var.addon_coredns_version
-  addon_kubeproxy_version    = var.addon_kubeproxy_version
-  addon_pod_identity_version = var.addon_pod_identity_version
-
-  depends_on = [
-    module.eks,
-    module.oidc,
-  ]
-}
-
 module "nodes_entry" {
   source = "./modules/nodes_entry"
 
@@ -59,7 +44,6 @@ module "nodes_entry" {
   depends_on = [
     module.eks,
     module.eks_nodes_role,
-    module.addons,
   ]
 }
 
@@ -80,6 +64,22 @@ module "nodes" {
   ]
 }
 
+module "addons" {
+  source = "./modules/addons"
+
+  aws_eks_cluster_name       = module.eks.cluster_name
+  addon_cni_version          = var.addon_cni_version
+  addon_coredns_version      = var.addon_coredns_version
+  addon_kubeproxy_version    = var.addon_kubeproxy_version
+  addon_pod_identity_version = var.addon_pod_identity_version
+
+  depends_on = [
+    module.eks,
+    module.oidc,
+    module.nodes,
+  ]
+}
+
 module "kube_metrics_server" {
   source = "./modules/helm_metrics_server"
 
@@ -88,6 +88,7 @@ module "kube_metrics_server" {
   depends_on = [
     module.eks,
     module.nodes,
+    module.addons,
   ]
 }
 
@@ -97,8 +98,37 @@ module "kube_state_metrics" {
   use_localstack = var.use_localstack
 
   depends_on = [
+    module.kube_metrics_server,
+  ]
+}
+
+module "karpenter_role" {
+  source = "./modules/iam_karpenter"
+
+  project_name                = var.project_name
+  openid_connect_provider_arn = module.oidc.oidc_provider_arn
+
+  depends_on = [
+    module.oidc,
     module.eks,
     module.nodes,
-    module.kube_metrics_server,
+    module.addons,
+  ]
+}
+
+module "helm_karpenter" {
+  source = "./modules/helm_karpenter"
+
+  project_name                    = var.project_name
+  karpenter_role_arn              = module.karpenter_role.role_arn
+  aws_eks_cluster_endpoint        = module.eks.cluster_endpoint
+  aws_nodes_instance_profile_name = module.eks_nodes_role.instance_profile_name
+
+  depends_on = [
+    module.eks,
+    module.nodes_entry,
+    module.nodes,
+    module.addons,
+    module.karpenter_role,
   ]
 }

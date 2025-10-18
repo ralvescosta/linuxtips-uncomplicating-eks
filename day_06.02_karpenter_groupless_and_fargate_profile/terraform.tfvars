@@ -39,8 +39,8 @@ pod_subnets = [
 
 auto_scale_options = {
   min     = 2
-  max     = 5
-  desired = 3
+  max     = 2
+  desired = 2
 }
 
 nodes_instance_sizes = [

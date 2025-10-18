@@ -13,13 +13,8 @@ resource "helm_release" "karpenter" {
     settings:
       clusterName: ${var.project_name}
       clusterEndpoint: ${var.aws_eks_cluster_endpoint}
-      interruptionQueue: ${var.aws_sqs_queue_karpenter_name}
-
-    # Note: aws.defaultInstanceProfile is not a standard Karpenter configuration
-    # This should be configured through NodePool/EC2NodeClass resources instead
-    # Keeping as comment for reference:
-    # aws:
-    #   defaultInstanceProfile: ${var.aws_nodes_instance_profile_name}
+    aws:
+      defaultInstanceProfile: ${var.aws_nodes_instance_profile_name}
   YAML
   ]
 }

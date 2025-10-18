@@ -35,21 +35,6 @@ module "oidc" {
   depends_on             = [module.eks]
 }
 
-module "addons" {
-  source = "./modules/addons"
-
-  aws_eks_cluster_name       = module.eks.cluster_name
-  addon_cni_version          = var.addon_cni_version
-  addon_coredns_version      = var.addon_coredns_version
-  addon_kubeproxy_version    = var.addon_kubeproxy_version
-  addon_pod_identity_version = var.addon_pod_identity_version
-
-  depends_on = [
-    module.eks,
-    module.oidc,
-  ]
-}
-
 module "nodes_entry" {
   source = "./modules/nodes_entry"
 
@@ -59,7 +44,6 @@ module "nodes_entry" {
   depends_on = [
     module.eks,
     module.eks_nodes_role,
-    module.addons,
   ]
 }
 
@@ -80,6 +64,22 @@ module "nodes" {
   ]
 }
 
+module "addons" {
+  source = "./modules/addons"
+
+  aws_eks_cluster_name       = module.eks.cluster_name
+  addon_cni_version          = var.addon_cni_version
+  addon_coredns_version      = var.addon_coredns_version
+  addon_kubeproxy_version    = var.addon_kubeproxy_version
+  addon_pod_identity_version = var.addon_pod_identity_version
+
+  depends_on = [
+    module.eks,
+    module.oidc,
+    module.nodes,
+  ]
+}
+
 module "kube_metrics_server" {
   source = "./modules/helm_metrics_server"
 
@@ -88,6 +88,7 @@ module "kube_metrics_server" {
   depends_on = [
     module.eks,
     module.nodes,
+    module.addons,
   ]
 }
 
@@ -97,8 +98,6 @@ module "kube_state_metrics" {
   use_localstack = var.use_localstack
 
   depends_on = [
-    module.eks,
-    module.nodes,
     module.kube_metrics_server,
   ]
 }

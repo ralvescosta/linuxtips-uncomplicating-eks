@@ -97,4 +97,5 @@ localstack-kubeconfig:
 	--name linuxtips-uncomplicating-eks \
 	--region us-east-1 \
 	--profile localstack \
+	--alias linuxtips-eks \
 	--endpoint-url http://localhost:4566
