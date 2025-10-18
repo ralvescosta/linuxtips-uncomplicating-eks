@@ -12,15 +12,15 @@ resource "helm_release" "node_termination_handler" {
           "eks.amazonaws.com/role-arn" = var.node_termination_role_arn
         }
       }
-      awsRegion                         = var.region
-      queueURL                          = var.sqs_queue_url
-      enableSqsTerminationDraining      = true
-      enableSpotInterruptionDraining    = true
-      enableRebalanceMonitoring         = true
-      enableRebalanceDraining           = true
-      enableScheduledEventDraining      = true
-      deleteSqsMsgIfNodeNotFound        = true
-      checkTagBeforeDraining            = false
+      awsRegion                      = var.region
+      queueURL                       = var.sqs_queue_url
+      enableSqsTerminationDraining   = true
+      enableSpotInterruptionDraining = true
+      enableRebalanceMonitoring      = true
+      enableRebalanceDraining        = true
+      enableScheduledEventDraining   = true
+      deleteSqsMsgIfNodeNotFound     = true
+      checkTagBeforeDraining         = false
     })
   ]
 }

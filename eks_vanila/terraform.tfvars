@@ -1,6 +1,6 @@
 project_name   = "linuxtips-uncomplicating-eks"
 region         = "us-east-1"
-use_localstack = true
+use_localstack = false
 
 ######## AWS
 vpc_id = "vpc-03b22061d7648182a"

@@ -1,6 +1,6 @@
 variable "use_localstack" {
   type    = bool
-  default = true 
+  default = true
 }
 
 variable "project_name" {
@@ -32,7 +32,7 @@ variable "s3_bucket_name" {
 variable "k8s_version" {
   type        = string
   description = "Kubernetes version for the project"
-  default = "1.33"
+  default     = "1.33"
 }
 
 variable "vpc_id" {
