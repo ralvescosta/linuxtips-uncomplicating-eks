@@ -11,8 +11,16 @@ resource "helm_release" "metrics_server" {
   values = [<<-YAML
     apiService:
       create: true
+    containerPort: 10251
     hostNetwork:
       enabled: true
+    defaultArgs:
+      - --cert-dir=/tmp
+      - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname
+      - --kubelet-use-node-status-port
+      - --secure-port=10251
+      - --metric-resolution=15s
+      - --kubelet-insecure-tls
     replicas: 2
   YAML
   ]
