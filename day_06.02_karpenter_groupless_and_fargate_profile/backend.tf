@@ -3,7 +3,6 @@ terraform {
     bucket = "linuxtips-uncomplicating-eks-tf-state"
     key    = "eks-vanila/state"
     region = "us-east-1"
-    # AWS configuration
     profile = "personal"
 
     # LocalStack configuration

@@ -1,6 +1,6 @@
 variable "use_localstack" {
   type    = bool
-  default = true
+  default = false
 }
 
 variable "project_name" {
