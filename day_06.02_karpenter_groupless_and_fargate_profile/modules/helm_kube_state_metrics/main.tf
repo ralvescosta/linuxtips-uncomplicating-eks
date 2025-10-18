@@ -10,8 +10,6 @@ resource "helm_release" "kube_state_metrics" {
   replace = true
 
   values = [<<-YAML
-    securityContext:
-      enabled: false
     apiService:
       create: true
     metricLabelsAllowlist:
