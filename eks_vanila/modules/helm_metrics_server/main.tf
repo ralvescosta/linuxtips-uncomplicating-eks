@@ -1,6 +1,4 @@
 resource "helm_release" "metrics_server" {
-  count = var.use_localstack ? 0 : 1
-
   name       = "metrics-server"
   repository = "oci://registry-1.docker.io/bitnamicharts"
   chart      = "metrics-server"

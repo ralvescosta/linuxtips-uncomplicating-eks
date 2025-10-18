@@ -71,7 +71,7 @@ variable "nodes_instance_sizes" {
 
 variable "addon_cni_version" {
   type        = string
-  default     = "v1.20.3-eksbuild.1"
+  default     = "v1.20.4-eksbuild.1"
   description = "VPC CNI Addon version"
 }
 
@@ -89,6 +89,6 @@ variable "addon_kubeproxy_version" {
 
 variable "addon_pod_identity_version" {
   type        = string
-  default     = "v1.3.8-eksbuild.2"
+  default     = "v1.3.9-eksbuild.3"
   description = "Pod Identity Addon version"
 }
