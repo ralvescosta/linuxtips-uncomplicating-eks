@@ -50,8 +50,8 @@ nodes_instance_sizes = [
 
 karpenter_capacity = [
   {
-    name               = "linuxtips-uncomplicating-eks-karpenter-capacity"
-    workload           = "linuxtips-uncomplicating-eks-karpenter-workload"
+    name               = "linuxtips-uncomplicating-eks-capacity"
+    workload           = "linuxtips-uncomplicating-eks-workload"
     ami_family         = "AL2023"
     ami_ssm            = "/aws/service/eks/optimized-ami/1.33/amazon-linux-2023/x86_64/standard/recommended/image_id"
     instance_family    = ["t3", "t3a"]
