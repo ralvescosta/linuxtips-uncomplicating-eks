@@ -138,7 +138,7 @@ module "kubectl_karpenter" {
 
   karpenter_capacity                = var.karpenter_capacity
   aws_nodes_instance_profile_name   = module.eks_nodes_role.instance_profile_name
-  aws_eks_amis                      = [for ami in data.aws_ssm_parameter.karpenter_ami : ami.value]
+  aws_eks_amis                      = data.aws_ssm_parameter.karpenter_ami[*].value
   aws_eks_cluster_security_group_id = module.eks.cluster_security_group_id
   subnet_ids                        = var.private_subnets
 
