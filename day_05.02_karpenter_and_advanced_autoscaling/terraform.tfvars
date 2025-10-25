@@ -39,11 +39,24 @@ pod_subnets = [
 
 auto_scale_options = {
   min     = 2
-  max     = 2
+  max     = 4
   desired = 2
 }
 
 nodes_instance_sizes = [
   "t3.medium",
   "t3.medium"
+]
+
+karpenter_capacity = [
+  {
+    name               = "linuxtips-uncomplicating-eks-karpenter-capacity"
+    workload           = "linuxtips-uncomplicating-eks-karpenter-workload"
+    ami_family         = "AL2023"
+    ami_ssm            = "/aws/service/eks/optimized-ami/1.33/amazon-linux-2023/x86_64/standard/recommended/image_id"
+    instance_family    = ["t3", "t3a"]
+    instance_sizes     = ["medium", "medium"]
+    capacity_type      = ["spot"]
+    availability_zones = ["us-east-1a", "us-east-1b", "us-east-1c"]
+  }
 ]

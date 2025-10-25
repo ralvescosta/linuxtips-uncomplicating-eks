@@ -132,3 +132,17 @@ module "helm_karpenter" {
     module.karpenter_role,
   ]
 }
+
+module "kubectl_karpenter" {
+  source = "./modules/kubectl_karpenter"
+
+  karpenter_capacity                = var.karpenter_capacity
+  aws_nodes_instance_profile_name   = module.eks_nodes_role.instance_profile_name
+  aws_eks_amis                      = [for ami in data.aws_ssm_parameter.karpenter_ami : ami.value]
+  aws_eks_cluster_security_group_id = module.eks.cluster_security_group_id
+  subnet_ids                        = var.private_subnets
+
+  depends_on = [
+    module.helm_karpenter,
+  ]
+}
