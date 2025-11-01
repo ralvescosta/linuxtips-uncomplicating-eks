@@ -103,11 +103,14 @@ metadata:
   name: chip-ingress
   namespace: chip
   annotations:
-    alb.ingress.kubernetes.io/scheme: "internet-facing" # Expor o ALB publicamente (use "internal" para privado)
+    alb.ingress.kubernetes.io/scheme: "internet-facing" 
     alb.ingress.kubernetes.io/subnets: "subnet-095401481eb512d9e,subnet-020dff4417a686247"
     alb.ingress.kubernetes.io/target-type: "ip" 
-    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}]' 
-    alb.ingress.kubernetes.io/healthcheck-path: "/liveness" 
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS": 443}]' 
+    alb.ingress.kubernetes.io/ssl-redirect: '443'
+    alb.ingress.kubernetes.io/certificate-arn: "{ARN DO CERTIFICADO ACM}" 
+    alb.ingress.kubernetes.io/ssl-policy: "ELBSecurityPolicy-2016-08" 
+    alb.ingress.kubernetes.io/healthcheck-path: "/liveness"
     alb.ingress.kubernetes.io/healthcheck-port: "traffic-port" 
     alb.ingress.kubernetes.io/healthcheck-protocol: "HTTP" 
   labels:
@@ -115,7 +118,7 @@ metadata:
 spec:
   ingressClassName: alb
   rules:
-    - host: chip.msfidelis.com.br # Substitua pelo seu domínio
+    - host: chip.msfidelis.com.br 
       http:
         paths:
           - path: /
