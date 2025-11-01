@@ -162,3 +162,33 @@ module "kubectl_karpenter" {
   ]
 }
 
+module "alb_controller_iam" {
+  source = "./modules/iam_alb_controller"
+
+  project_name        = var.project_name
+  cluster_endpoint    = module.eks.cluster_endpoint
+  oidc_provider_arn   = module.oidc.oidc_provider_arn
+
+  depends_on = [
+    module.oidc,
+    module.eks,
+    module.nodes,
+    module.addons,
+  ]
+}
+
+module "helm_alb_controller" {
+  source = "./modules/helm_alb_controller"
+
+  project_name                 = var.project_name
+  region                       = var.region
+  vpc_id                       = var.vpc_id
+  alb_controller_role_arn      = module.alb_controller_iam.role_arn
+
+  depends_on = [
+    module.eks,
+    module.nodes,
+    module.addons,
+    module.alb_controller_iam,
+  ]
+}
