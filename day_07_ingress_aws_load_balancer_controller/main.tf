@@ -192,3 +192,16 @@ module "helm_alb_controller" {
     module.alb_controller_iam,
   ]
 }
+
+module "load_balancer" {
+  source = "./modules/ingress_load_balancer"
+
+  project_name = var.project_name
+  vpc_id       = var.vpc_id
+  subnet_ids   = var.public_subnets
+
+  depends_on = [
+    module.helm_alb_controller,
+    module.nodes,
+  ]
+}

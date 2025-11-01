@@ -107,13 +107,13 @@ variable "karpenter_capacity" {
 }
 
 variable "dns_name" {
-  type = string
+  type        = string
   description = "DNS name for the ALB Ingress Controller"
-  default = "*.ralvescosta.dev"
+  default     = "*.ralvescosta.dev"
 }
 
 variable "route53_zone_id" {
-  type = string
+  type        = string
   description = "Route53 Hosted Zone ID for the ALB Ingress Controller"
-  default = "Z02655173QY3KX"
+  default     = "Z02655173QY3KX"
 }
