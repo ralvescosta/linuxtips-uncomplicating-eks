@@ -6,7 +6,7 @@ data "aws_iam_policy_document" "aws_lb_role" {
     condition {
       test     = "StringEquals"
       variable = "${replace(var.cluster_endpoint, "https://", "")}:sub"
-      values   = [
+      values = [
         "system:serviceaccount:kube-system:aws-load-balancer-controller",
       ]
     }
