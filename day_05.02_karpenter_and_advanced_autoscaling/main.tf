@@ -102,6 +102,19 @@ module "kube_state_metrics" {
   ]
 }
 
+module "sqs_node_termination" {
+  source = "./modules/sqs_node_termination_handler"
+
+  project_name = var.project_name
+
+  depends_on = [
+    module.oidc,
+    module.eks,
+    module.nodes,
+    module.addons,
+  ]
+}
+
 module "karpenter_role" {
   source = "./modules/iam_karpenter"
 
@@ -123,6 +136,7 @@ module "helm_karpenter" {
   karpenter_role_arn              = module.karpenter_role.role_arn
   aws_eks_cluster_endpoint        = module.eks.cluster_endpoint
   aws_nodes_instance_profile_name = module.eks_nodes_role.instance_profile_name
+  sqs_interruption_queue_name     = module.sqs_node_termination.sqs_queue_name
 
   depends_on = [
     module.eks,
@@ -130,6 +144,7 @@ module "helm_karpenter" {
     module.nodes,
     module.addons,
     module.karpenter_role,
+    module.sqs_node_termination,
   ]
 }
 
@@ -146,3 +161,4 @@ module "kubectl_karpenter" {
     module.helm_karpenter,
   ]
 }
+
