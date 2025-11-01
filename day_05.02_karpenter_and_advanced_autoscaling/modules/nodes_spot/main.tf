@@ -21,6 +21,7 @@ resource "aws_eks_node_group" "main" {
   }
 
   tags = {
+    "Name"                                      = format("%s-spot-node", var.project_name)
     "kubernetes.io/cluster/${var.project_name}" = "owned"
   }
 
