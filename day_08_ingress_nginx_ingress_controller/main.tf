@@ -174,6 +174,8 @@ module "alb_controller_iam" {
     module.eks,
     module.nodes,
     module.addons,
+    helm_karpenter,
+    kubectl_karpenter,
   ]
 }
 
@@ -193,7 +195,7 @@ module "helm_alb_controller" {
   ]
 }
 
-module "load_balancer" {
+module "ingress_nlb" {
   source = "./modules/ingress_load_balancer"
 
   project_name = var.project_name
@@ -202,6 +204,18 @@ module "load_balancer" {
 
   depends_on = [
     module.helm_alb_controller,
+    module.nodes,
+  ]
+}
+
+module "helm_nginx_controller" {
+  source = "./modules/helm_nginx_controller"
+
+  project_name             = var.project_name
+  alb_target_group_arn     = module.ingress_nlb.alb_target_group_arn
+
+  depends_on = [
+    module.ingress_nlb,
     module.nodes,
   ]
 }

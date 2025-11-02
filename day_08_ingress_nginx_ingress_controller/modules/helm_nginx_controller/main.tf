@@ -15,6 +15,17 @@ resource "helm_release" "nginx_controller" {
           enabled: true
       publishService:
         enabled: true
+      resources:
+        requests:
+          cpu: 250m
+          memory: 512Mi
+        limits:
+          cpu: 500m
+          memory: 1024Mi
+      autoscaling:
+        enabled: true
+        minReplicas: 3
+        maxReplicas: 30
   YAML
   ]
 }
