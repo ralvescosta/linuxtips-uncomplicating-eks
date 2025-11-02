@@ -211,8 +211,8 @@ module "ingress_nlb" {
 module "helm_nginx_controller" {
   source = "./modules/helm_nginx_controller"
 
-  project_name             = var.project_name
-  alb_target_group_arn     = module.ingress_nlb.alb_target_group_arn
+  project_name         = var.project_name
+  alb_target_group_arn = module.ingress_nlb.alb_target_group_arn
 
   depends_on = [
     module.ingress_nlb,

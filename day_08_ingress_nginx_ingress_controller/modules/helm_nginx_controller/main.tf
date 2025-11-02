@@ -17,15 +17,15 @@ resource "helm_release" "nginx_controller" {
         enabled: true
       resources:
         requests:
-          cpu: 250m
-          memory: 512Mi
+          cpu: ${var.resources.requests.cpu}
+          memory: ${var.resources.requests.memory}
         limits:
-          cpu: 500m
-          memory: 1024Mi
+          cpu: ${var.resources.limits.cpu}
+          memory: ${var.resources.limits.memory}
       autoscaling:
         enabled: true
-        minReplicas: 3
-        maxReplicas: 30
+        minReplicas: ${var.autoscaling.minReplicas}
+        maxReplicas: ${var.autoscaling.maxReplicas}
   YAML
   ]
 }
@@ -45,5 +45,5 @@ spec:
     port: 80
 YAML
 
- depends_on = [helm_release.nginx_controller]
+  depends_on = [helm_release.nginx_controller]
 }
