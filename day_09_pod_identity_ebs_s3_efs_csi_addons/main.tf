@@ -75,6 +75,17 @@ module "iam_ebs_csi" {
   ]
 }
 
+module "iam_efs_csi" {
+  source       = "./modules/iam_efs_csi"
+  project_name = var.project_name
+  cluster_name = module.eks.cluster_name
+
+  depends_on = [
+    module.oidc,
+    module.nodes,
+  ]
+}
+
 module "addons" {
   source = "./modules/addons"
 
@@ -119,5 +130,16 @@ module "kube_state_metrics" {
 
   depends_on = [
     module.kube_metrics_server,
+  ]
+}
+
+module "efs" {
+  source = "./modules/efs"
+
+  vpc_id     = var.vpc_id
+  subnet_ids = var.pod_subnets
+
+  depends_on = [
+    module.addons,
   ]
 }

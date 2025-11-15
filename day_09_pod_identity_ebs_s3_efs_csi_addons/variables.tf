@@ -104,3 +104,9 @@ variable "addon_efs_csi_driver_version" {
   default     = "v2.1.13-eksbuild.1"
   description = "EFS CSI Driver Addon version"
 }
+
+variable "addon_s3_csi_driver_version" {
+  type        = string
+  default     = "v2.1.0-eksbuild.1"
+  description = "Mount point s3 CSI Driver Addon version"
+}

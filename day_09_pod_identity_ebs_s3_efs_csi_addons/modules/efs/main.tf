@@ -55,7 +55,7 @@ volumeBindingMode: WaitForFirstConsumer
 }
 
 resource "kubectl_manifest" "efs_pvc" {
-   yaml_body = <<-YAML
+  yaml_body = <<-YAML
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -72,5 +72,5 @@ spec:
 
   depends_on = [
     kubectl_manifest.efs_storage_class
-  ] 
+  ]
 }
