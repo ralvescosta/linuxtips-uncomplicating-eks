@@ -1,5 +1,5 @@
 output "efs_arn" {
-  value = aws_efs_file_system.main.arn 
+  value = aws_efs_file_system.main.arn
 }
 
 output "efs_file_system_id" {

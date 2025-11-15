@@ -32,3 +32,45 @@ resource "aws_efs_mount_target" "efs_mount_pods" {
     aws_security_group.efs.id
   ]
 }
+
+resource "kubectl_manifest" "efs_storage_class" {
+  yaml_body = <<-YAML
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: chip-efs-shared
+provisioner: efs.csi.aws.com
+parameters:
+  provisioningMode: efs-ap
+  fileSystemId: ${aws_efs_file_system.main.id}
+  directoryPerms: "777"
+reclaimPolicy: Retain
+volumeBindingMode: WaitForFirstConsumer
+  YAML
+
+  depends_on = [
+    aws_efs_file_system.main,
+    aws_efs_mount_target.efs_mount_pods
+  ]
+}
+
+resource "kubectl_manifest" "efs_pvc" {
+   yaml_body = <<-YAML
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: chip-efs-shared
+  namespace: chip
+spec:
+  storageClassName: chip-efs-shared
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Gi
+  YAML
+
+  depends_on = [
+    kubectl_manifest.efs_storage_class
+  ] 
+}
