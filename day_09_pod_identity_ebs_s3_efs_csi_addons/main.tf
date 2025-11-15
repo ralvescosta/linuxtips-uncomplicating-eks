@@ -64,6 +64,17 @@ module "nodes" {
   ]
 }
 
+module "iam_ebs_csi" {
+  source       = "./modules/iam_ebs_csi"
+  project_name = var.project_name
+  cluster_name = module.eks.cluster_name
+
+  depends_on = [
+    module.oidc,
+    module.nodes,
+  ]
+}
+
 module "addons" {
   source = "./modules/addons"
 
@@ -77,6 +88,15 @@ module "addons" {
     module.eks,
     module.oidc,
     module.nodes,
+    module.iam_ebs_csi,
+  ]
+}
+
+module "storageclass_gp3" {
+  source = "./modules/kubectl_ebs_gp3"
+
+  depends_on = [
+    module.addons,
   ]
 }
 
