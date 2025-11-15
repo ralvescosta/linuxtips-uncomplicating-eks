@@ -86,6 +86,17 @@ module "iam_efs_csi" {
   ]
 }
 
+module "iam_s3_csi" {
+  source       = "./modules/iam_s3_csi"
+  project_name = var.project_name
+  cluster_name = module.eks.cluster_name
+
+  depends_on = [
+    module.oidc,
+    module.nodes,
+  ]
+}
+
 module "addons" {
   source = "./modules/addons"
 
