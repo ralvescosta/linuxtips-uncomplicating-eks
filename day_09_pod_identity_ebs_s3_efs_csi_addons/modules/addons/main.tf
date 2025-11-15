@@ -42,3 +42,12 @@ resource "aws_eks_addon" "ebs_csi_driver" {
   resolve_conflicts_on_create = "OVERWRITE"
   resolve_conflicts_on_update = "OVERWRITE"
 }
+
+resource "aws_eks_addon" "efs_csi_driver" {
+  cluster_name = var.aws_eks_cluster_name
+  addon_name   = "aws-efs-csi-driver"
+
+  addon_version               = var.addon_efs_csi_driver_version
+  resolve_conflicts_on_create = "OVERWRITE"
+  resolve_conflicts_on_update = "OVERWRITE"
+}

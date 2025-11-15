@@ -38,3 +38,9 @@ variable "addon_ebs_csi_driver_version" {
   default     = "v1.51.1-eksbuild.1"
   description = "EBS CSI Driver Addon version"
 }
+
+variable "addon_efs_csi_driver_version" {
+  type        = string
+  default     = "v2.1.13-eksbuild.1"
+  description = "EFS CSI Driver Addon version"
+}
