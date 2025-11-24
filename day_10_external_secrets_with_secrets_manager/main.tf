@@ -121,3 +121,17 @@ module "helm_external_secrets" {
     module.addons,
   ]
 }
+
+module "secrets_manager" {
+  source = "./modules/secrets_manager"
+
+  name          = "${var.project_name}-fake"
+  secret_string = jsonencode({
+    username = "admin"
+    password = "password123"
+  })
+
+  depends_on = [ 
+    module.helm_external_secrets
+  ]
+}
