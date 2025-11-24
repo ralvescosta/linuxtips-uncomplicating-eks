@@ -101,3 +101,23 @@ module "kube_state_metrics" {
     module.kube_metrics_server,
   ]
 }
+
+module "iam_external_secrets" {
+  source       = "./modules/iam_external_secrets"
+
+  project_name = var.project_name
+  cluster_name = module.eks.cluster_name
+
+  depends_on   = [
+    module.addons,
+  ]
+}
+
+module "helm_external_secrets" {
+  source = "./modules/helm_external_secrets"
+
+  depends_on = [
+    module.iam_external_secrets,
+    module.addons,
+  ]
+}
