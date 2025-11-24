@@ -125,10 +125,11 @@ module "helm_external_secrets" {
 module "secrets_manager" {
   source = "./modules/secrets_manager"
 
-  name          = "${var.project_name}-fake"
+  name          = "chip-test"
   secret_string = jsonencode({
     username = "admin"
     password = "password123"
+    foo      = "bar"
   })
 
   depends_on = [ 
