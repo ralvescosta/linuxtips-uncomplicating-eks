@@ -242,10 +242,10 @@ init: ## Initialize Terraform
 	terraform init -reconfigure
 
 plan: ## Run Terraform plan
-	terraform plan
+	terraform plan -var-file="terraform.tfvars"
 
 apply: ## Apply Terraform changes
-	terraform apply
+	terraform apply -var-file="terraform.tfvars"
 
 destroy: ## Destroy Terraform resources
 	terraform destroy
