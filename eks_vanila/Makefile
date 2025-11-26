@@ -14,6 +14,7 @@ help: ## Show this help message
 
 update-localstack-config: ## Update terraform.tfvars with current LocalStack VPC, subnets, and addon versions
 	@echo "🔄 Updating terraform.tfvars with LocalStack configuration..."
+	@sed -i.bak "s|use_localstack = false|use_localstack = true|g" $(TFVARS_FILE) && rm -f $(TFVARS_FILE).bak
 	@$(MAKE) update-vpc
 	@$(MAKE) update-subnets
 	@$(MAKE) update-addons
@@ -35,94 +36,74 @@ update-vpc: ## Update VPC ID from LocalStack
 
 update-subnets: ## Update subnet IDs from LocalStack
 	@echo "📡 Fetching subnet IDs from LocalStack..."
-	@PUBLIC_SUBNETS=$$(aws ec2 describe-subnets \
+	@ALL_SUBNETS=$$(aws ec2 describe-subnets \
 		--endpoint-url=$(LOCALSTACK_ENDPOINT) \
 		--profile $(LOCALSTACK_PROFILE) \
-		--filters "Name=tag:Type,Values=public" \
 		--query 'Subnets[*].SubnetId' \
-		--output text 2>/dev/null | tr '\t' '\n' | head -2); \
-	PRIVATE_SUBNETS=$$(aws ec2 describe-subnets \
-		--endpoint-url=$(LOCALSTACK_ENDPOINT) \
-		--profile $(LOCALSTACK_PROFILE) \
-		--filters "Name=tag:Type,Values=private" \
-		--query 'Subnets[*].SubnetId' \
-		--output text 2>/dev/null | tr '\t' '\n' | head -2); \
-	POD_SUBNETS=$$(aws ec2 describe-subnets \
-		--endpoint-url=$(LOCALSTACK_ENDPOINT) \
-		--profile $(LOCALSTACK_PROFILE) \
-		--filters "Name=tag:Type,Values=pod" \
-		--query 'Subnets[*].SubnetId' \
-		--output text 2>/dev/null | tr '\t' '\n' | head -2); \
-	if [ -z "$$PUBLIC_SUBNETS" ]; then \
-		echo "⚠️  Warning: No public subnets found, using first 2 available subnets"; \
-		PUBLIC_SUBNETS=$$(aws ec2 describe-subnets \
-			--endpoint-url=$(LOCALSTACK_ENDPOINT) \
-			--profile $(LOCALSTACK_PROFILE) \
-			--query 'Subnets[0:2].SubnetId' \
-			--output text 2>/dev/null); \
+		--output text 2>/dev/null); \
+	if [ -z "$$ALL_SUBNETS" ]; then \
+		echo "❌ Error: No subnets found in LocalStack"; \
+		exit 1; \
 	fi; \
-	if [ -z "$$PRIVATE_SUBNETS" ]; then \
-		echo "⚠️  Warning: No private subnets found, using next 2 available subnets"; \
-		PRIVATE_SUBNETS=$$(aws ec2 describe-subnets \
-			--endpoint-url=$(LOCALSTACK_ENDPOINT) \
-			--profile $(LOCALSTACK_PROFILE) \
-			--query 'Subnets[2:4].SubnetId' \
-			--output text 2>/dev/null); \
+	PUBLIC_SUBNET_1=$$(echo "$$ALL_SUBNETS" | awk '{print $$1}'); \
+	PUBLIC_SUBNET_2=$$(echo "$$ALL_SUBNETS" | awk '{print $$2}'); \
+	PRIVATE_SUBNET_1=$$(echo "$$ALL_SUBNETS" | awk '{print $$3}'); \
+	PRIVATE_SUBNET_2=$$(echo "$$ALL_SUBNETS" | awk '{print $$4}'); \
+	POD_SUBNET_1=$$(echo "$$ALL_SUBNETS" | awk '{print $$5}'); \
+	POD_SUBNET_2=$$(echo "$$ALL_SUBNETS" | awk '{print $$6}'); \
+	if [ -z "$$PUBLIC_SUBNET_1" ] || [ -z "$$PUBLIC_SUBNET_2" ]; then \
+		echo "❌ Error: Not enough subnets found (need at least 6)"; \
+		exit 1; \
 	fi; \
-	if [ -z "$$POD_SUBNETS" ]; then \
-		echo "⚠️  Warning: No pod subnets found, using next 2 available subnets"; \
-		POD_SUBNETS=$$(aws ec2 describe-subnets \
-			--endpoint-url=$(LOCALSTACK_ENDPOINT) \
-			--profile $(LOCALSTACK_PROFILE) \
-			--query 'Subnets[4:6].SubnetId' \
-			--output text 2>/dev/null); \
-	fi; \
-	PUBLIC_SUBNET_1=$$(echo "$$PUBLIC_SUBNETS" | sed -n '1p'); \
-	PUBLIC_SUBNET_2=$$(echo "$$PUBLIC_SUBNETS" | sed -n '2p'); \
-	PRIVATE_SUBNET_1=$$(echo "$$PRIVATE_SUBNETS" | sed -n '1p'); \
-	PRIVATE_SUBNET_2=$$(echo "$$PRIVATE_SUBNETS" | sed -n '2p'); \
-	POD_SUBNET_1=$$(echo "$$POD_SUBNETS" | sed -n '1p'); \
-	POD_SUBNET_2=$$(echo "$$POD_SUBNETS" | sed -n '2p'); \
 	echo "   Public Subnets: $$PUBLIC_SUBNET_1, $$PUBLIC_SUBNET_2"; \
 	echo "   Private Subnets: $$PRIVATE_SUBNET_1, $$PRIVATE_SUBNET_2"; \
 	echo "   Pod Subnets: $$POD_SUBNET_1, $$POD_SUBNET_2"; \
+	TEMP_FILE=$$(mktemp); \
 	awk -v ps1="$$PUBLIC_SUBNET_1" -v ps2="$$PUBLIC_SUBNET_2" \
-		-v pvs1="$$PRIVATE_SUBNET_1" -v pvs2="$$PRIVATE_SUBNET_2" \
-		-v pods1="$$POD_SUBNET_1" -v pods2="$$POD_SUBNET_2" ' \
+		-v pv1="$$PRIVATE_SUBNET_1" -v pv2="$$PRIVATE_SUBNET_2" \
+		-v pd1="$$POD_SUBNET_1" -v pd2="$$POD_SUBNET_2" ' \
+		BEGIN { in_public=0; in_private=0; in_pod=0; skip_lines=0 } \
 		/^public_subnets = \[/ { \
 			print "public_subnets = ["; \
 			print "  \"" ps1 "\","; \
 			print "  \"" ps2 "\","; \
 			print "]"; \
+			in_public=1; \
+			skip_lines=1; \
 			next; \
 		} \
-		/^  "subnet-[a-z0-9]*",$$/ && in_public { next; } \
-		/^\]$$/ && in_public { in_public=0; next; } \
-		/^public_subnets = \[/ { in_public=1; } \
 		/^private_subnets = \[/ { \
 			print "private_subnets = ["; \
-			print "  \"" pvs1 "\","; \
-			print "  \"" pvs2 "\""; \
+			print "  \"" pv1 "\","; \
+			print "  \"" pv2 "\""; \
 			print "]"; \
+			in_private=1; \
+			in_public=0; \
+			skip_lines=1; \
 			next; \
 		} \
-		/^  "subnet-[a-z0-9]*",$$/ && in_private { next; } \
-		/^  "subnet-[a-z0-9]*"$$/ && in_private { next; } \
-		/^\]$$/ && in_private { in_private=0; next; } \
-		/^private_subnets = \[/ { in_private=1; } \
 		/^pod_subnets = \[/ { \
 			print "pod_subnets = ["; \
-			print "  \"" pods1 "\","; \
-			print "  \"" pods2 "\""; \
+			print "  \"" pd1 "\","; \
+			print "  \"" pd2 "\""; \
 			print "]"; \
+			in_pod=1; \
+			in_private=0; \
+			skip_lines=1; \
 			next; \
 		} \
-		/^  "subnet-[a-z0-9]*",$$/ && in_pod { next; } \
-		/^  "subnet-[a-z0-9]*"$$/ && in_pod { next; } \
-		/^\]$$/ && in_pod { in_pod=0; next; } \
-		/^pod_subnets = \[/ { in_pod=1; } \
+		/^\]/ { \
+			if (skip_lines == 1) { \
+				skip_lines=0; \
+				in_public=0; \
+				in_private=0; \
+				in_pod=0; \
+				next; \
+			} \
+		} \
+		skip_lines == 1 { next; } \
 		{ print; } \
-	' $(TFVARS_FILE) > $(TFVARS_FILE).tmp && mv $(TFVARS_FILE).tmp $(TFVARS_FILE)
+	' $(TFVARS_FILE) > $$TEMP_FILE && mv $$TEMP_FILE $(TFVARS_FILE)
 
 update-addons: ## Update EKS addon versions from AWS
 	@echo "📡 Fetching latest EKS addon versions..."
