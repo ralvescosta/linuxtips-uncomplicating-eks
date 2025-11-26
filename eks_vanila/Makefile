@@ -14,11 +14,55 @@ help: ## Show this help message
 
 update-localstack-config: ## Update terraform.tfvars with current LocalStack VPC, subnets, and addon versions
 	@echo "🔄 Updating terraform.tfvars with LocalStack configuration..."
-	@sed -i.bak "s|use_localstack = false|use_localstack = true|g" $(TFVARS_FILE) && rm -f $(TFVARS_FILE).bak
+	@$(MAKE) update-use_localstack
+	@$(MAKE) update-backend.tf
+	@$(MAKE) s3_tf_state
 	@$(MAKE) update-vpc
 	@$(MAKE) update-subnets
 	@$(MAKE) update-addons
 	@echo "✅ Configuration updated successfully!"
+
+update-use_localstack:
+	@echo "🔄 Setting use_localstack to true in terraform.tfvars..."
+	@sed -i.bak "s|use_localstack = false|use_localstack = true|g" $(TFVARS_FILE) && rm -f $(TFVARS_FILE).bak
+	@echo "✅ use_localstack set to true."
+
+update-backend.tf: ## Update backend.tf to use LocalStack configuration
+	@echo "🔄 Updating backend.tf for LocalStack..."
+	@sed -i.bak \
+		-e '4s/^    bucket/    # bucket/' \
+		-e '5s/^    key/    # key/' \
+		-e '6s/^    region/    # region/' \
+		-e '7s/^    profile/    # profile/' \
+		-e '10s/^    # bucket/    bucket/' \
+		-e '11s/^    # key/    key/' \
+		-e '12s/^    # region/    region/' \
+		-e '13s/^    # profile/    profile/' \
+		-e '14s/^    # endpoints/    endpoints/' \
+		-e '15s/^    #   s3/      s3/' \
+		-e '16s/^    #   sts/      sts/' \
+		-e '17s/^    # }/    }/' \
+		backend.tf && rm -f backend.tf.bak
+	@echo "✅ backend.tf updated for LocalStack."
+
+restore-aws-backend: ## Restore backend.tf to use AWS configuration
+	@echo "🔄 Restoring backend.tf for AWS..."
+	@sed -i.bak \
+		-e '4s/^    # bucket/    bucket/' \
+		-e '5s/^    # key/    key/' \
+		-e '6s/^    # region/    region/' \
+		-e '7s/^    # profile/    profile/' \
+		-e '10s/^    bucket/    # bucket/' \
+		-e '11s/^    key/    # key/' \
+		-e '12s/^    region/    # region/' \
+		-e '13s/^    profile/    # profile/' \
+		-e '14s/^    endpoints/    # endpoints/' \
+		-e '15s/^      s3/    #   s3/' \
+		-e '16s/^      sts/    #   sts/' \
+		-e '17s/^    }/    # }/' \
+		backend.tf && rm -f backend.tf.bak
+	@sed -i.bak "s|use_localstack = true|use_localstack = false|g" $(TFVARS_FILE) && rm -f $(TFVARS_FILE).bak
+	@echo "✅ backend.tf restored for AWS."
 
 update-vpc: ## Update VPC ID from LocalStack
 	@echo "📡 Fetching VPC ID from LocalStack..."
@@ -33,6 +77,7 @@ update-vpc: ## Update VPC ID from LocalStack
 	fi; \
 	echo "   VPC ID: $$VPC_ID"; \
 	sed -i.bak "s|vpc_id = \"vpc-[a-z0-9]*\"|vpc_id = \"$$VPC_ID\"|g" $(TFVARS_FILE) && rm -f $(TFVARS_FILE).bak
+	echo "✅ VPC ID updated."
 
 update-subnets: ## Update subnet IDs from LocalStack
 	@echo "📡 Fetching subnet IDs from LocalStack..."
@@ -104,6 +149,7 @@ update-subnets: ## Update subnet IDs from LocalStack
 		skip_lines == 1 { next; } \
 		{ print; } \
 	' $(TFVARS_FILE) > $$TEMP_FILE && mv $$TEMP_FILE $(TFVARS_FILE)
+	echo "✅ Subnet IDs updated."
 
 update-addons: ## Update EKS addon versions from AWS
 	@echo "📡 Fetching latest EKS addon versions..."
@@ -159,12 +205,37 @@ update-addons: ## Update EKS addon versions from AWS
 	else \
 		echo "   ⚠️  Could not fetch Pod Identity version"; \
 	fi
+	echo "✅ Addon versions updated."
 
 update-vpc-localstack: ## Update VPC ID from LocalStack (same as update-vpc)
 	@$(MAKE) update-vpc
 
 update-subnets-localstack: ## Update subnet IDs from LocalStack (same as update-subnets)
 	@$(MAKE) update-subnets
+
+s3_tf_state: ## Create S3 bucket for Terraform state in LocalStack if it doesn't exist
+	@echo "📦 Checking S3 bucket for Terraform state..."
+	@BUCKET_NAME=$$(grep -A 10 "## LocalStack configuration" backend.tf | grep "bucket" | grep -v "#" | sed 's/.*"\(.*\)".*/\1/' | head -1); \
+	if [ -z "$$BUCKET_NAME" ]; then \
+		BUCKET_NAME=$$(grep -A 5 "## AWS configuration" backend.tf | grep "bucket" | grep -v "#" | sed 's/.*"\(.*\)".*/\1/' | head -1); \
+	fi; \
+	if [ -z "$$BUCKET_NAME" ]; then \
+		echo "❌ Error: Could not extract bucket name from backend.tf"; \
+		exit 1; \
+	fi; \
+	echo "   Bucket name: $$BUCKET_NAME"; \
+	if aws s3 ls s3://$$BUCKET_NAME --endpoint-url=$(LOCALSTACK_ENDPOINT) --profile $(LOCALSTACK_PROFILE) 2>/dev/null; then \
+		echo "✅ S3 bucket '$$BUCKET_NAME' already exists."; \
+	else \
+		echo "   Creating S3 bucket '$$BUCKET_NAME'..."; \
+		aws s3 mb s3://$$BUCKET_NAME --endpoint-url=$(LOCALSTACK_ENDPOINT) --profile $(LOCALSTACK_PROFILE); \
+		if [ $$? -eq 0 ]; then \
+			echo "✅ S3 bucket '$$BUCKET_NAME' created successfully."; \
+		else \
+			echo "❌ Error: Failed to create S3 bucket."; \
+			exit 1; \
+		fi; \
+	fi
 
 # Terraform commands
 init: ## Initialize Terraform
