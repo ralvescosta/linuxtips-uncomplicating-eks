@@ -157,6 +157,7 @@ update-addons: ## Update EKS addon versions from AWS
 		--addon-name vpc-cni \
 		--kubernetes-version $(K8S_VERSION) \
 		--profile $(AWS_PROFILE) \
+		--endpoint-url=$(LOCALSTACK_ENDPOINT) \
 		--region $(AWS_REGION) \
 		--query 'addons[0].addonVersions[0].addonVersion' \
 		--output text 2>/dev/null); \
@@ -164,6 +165,7 @@ update-addons: ## Update EKS addon versions from AWS
 		--addon-name coredns \
 		--kubernetes-version $(K8S_VERSION) \
 		--profile $(AWS_PROFILE) \
+		--endpoint-url=$(LOCALSTACK_ENDPOINT) \
 		--region $(AWS_REGION) \
 		--query 'addons[0].addonVersions[0].addonVersion' \
 		--output text 2>/dev/null); \
@@ -171,6 +173,7 @@ update-addons: ## Update EKS addon versions from AWS
 		--addon-name kube-proxy \
 		--kubernetes-version $(K8S_VERSION) \
 		--profile $(AWS_PROFILE) \
+		--endpoint-url=$(LOCALSTACK_ENDPOINT) \
 		--region $(AWS_REGION) \
 		--query 'addons[0].addonVersions[0].addonVersion' \
 		--output text 2>/dev/null); \
@@ -178,6 +181,7 @@ update-addons: ## Update EKS addon versions from AWS
 		--addon-name eks-pod-identity-agent \
 		--kubernetes-version $(K8S_VERSION) \
 		--profile $(AWS_PROFILE) \
+		--endpoint-url=$(LOCALSTACK_ENDPOINT) \
 		--region $(AWS_REGION) \
 		--query 'addons[0].addonVersions[0].addonVersion' \
 		--output text 2>/dev/null); \
