@@ -239,7 +239,7 @@ s3_tf_state: ## Create S3 bucket for Terraform state in LocalStack if it doesn't
 
 # Terraform commands
 init: ## Initialize Terraform
-	terraform init
+	terraform init -reconfigure
 
 plan: ## Run Terraform plan
 	terraform plan
