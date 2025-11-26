@@ -1,0 +1,10 @@
+aws eks create-access-entry \                                                       
+  --cluster-name <<CLUSTER_NAME>> \
+  --principal-arn "arn:aws:iam::<<ACCOUNT_ID>>:role/service-role/StepFunctions-BasicRunJob-role-y3beh2ih5" \
+  --type STANDARD --profile personal
+
+aws eks associate-access-policy \
+  --cluster-name <<CLUSTER_NAME>> \
+  --principal-arn "arn:aws:iam::<<ACCOUNT_ID>>:role/service-role/StepFunctions-BasicRunJob-role-y3beh2ih5" \
+  --policy-arn arn:aws:eks::aws:cluster-access-policy/AmazonEKSEditPolicy \
+  --access-scope type=namespace,namespaces=rafa --profile personal
