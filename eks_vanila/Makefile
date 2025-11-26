@@ -259,3 +259,13 @@ fmt: ## Format Terraform files
 
 validate: ## Validate Terraform files
 	terraform validate
+
+kubeconfig: ## Update kubeconfig for EKS cluster
+	@echo "🔄 Updating kubeconfig for EKS cluster..."
+	@aws eks update-kubeconfig \
+		--name linuxtips-uncomplicating-eks \
+		--region $(AWS_REGION) \
+		--profile $(LOCALSTACK_PROFILE) \
+		--endpoint-url=$(LOCALSTACK_ENDPOINT) \
+		--alias linuxtips-eks
+	@echo "✅ Kubeconfig updated."
