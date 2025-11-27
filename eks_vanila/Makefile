@@ -12,6 +12,10 @@ help: ## Show this help message
 	@echo "Available targets:"
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
+localstack:
+	DNS_NAME_PATTERNS_TO_RESOLVE_UPSTREAM='.*cloudfront\.net,.*registry\.k8s\.io,.*docker\.io,.*ghcr\.io,.*gcr\.io,.*quay\.io' \
+	localstack start
+
 update-localstack-config: ## Update terraform.tfvars with current LocalStack VPC, subnets, and addon versions
 	@echo "🔄 Updating terraform.tfvars with LocalStack configuration..."
 	@$(MAKE) update-use_localstack
