@@ -1,4 +1,4 @@
-.PHONY: help update-localstack-config update-vpc update-subnets update-addons
+.PHONY: help localstack update-localstack-config update-vpc update-subnets update-addons
 
 # Default profile and endpoint for LocalStack
 LOCALSTACK_ENDPOINT := http://localhost:4566
@@ -12,7 +12,7 @@ help: ## Show this help message
 	@echo "Available targets:"
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
-localstack:
+localstack: ## Start LocalStack with specific DNS name patterns to resolve upstream
 	DNS_NAME_PATTERNS_TO_RESOLVE_UPSTREAM='.*cloudfront\.net,.*registry\.k8s\.io,.*docker\.io,.*ghcr\.io,.*gcr\.io,.*quay\.io' \
 	localstack start
 
