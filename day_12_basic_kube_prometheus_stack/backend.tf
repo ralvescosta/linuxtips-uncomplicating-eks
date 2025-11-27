@@ -2,7 +2,7 @@ terraform {
   backend "s3" {
     ## AWS configuration
     bucket = "linuxtips-uncomplicating-eks-tf-state"
-    key    = "eks-vanila/state"
+    key    = "day_12"
     region = "us-east-1"
     profile = "personal"
 
