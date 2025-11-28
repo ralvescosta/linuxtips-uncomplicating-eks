@@ -7,9 +7,9 @@ terraform {
     # profile = "personal"
 
     ## LocalStack configuration
-    bucket = "linuxtips-uncomplicating-eks-tf-state"
-    key    = "day_12"
-    region = "us-east-1"
+    bucket  = "linuxtips-uncomplicating-eks-tf-state"
+    key     = "day_12"
+    region  = "us-east-1"
     profile = "localstack"
     endpoints = {
       s3  = "http://s3.localhost.localstack.cloud:4566"

@@ -32,3 +32,9 @@ variable "addon_pod_identity_version" {
   default     = "v1.3.4-eksbuild.1"
   description = "Pod Identity Addon version"
 }
+
+variable "addon_efs_csi_driver_version" {
+  type        = string
+  default     = "v2.1.13-eksbuild.1"
+  description = "EFS CSI Driver Addon version"
+}

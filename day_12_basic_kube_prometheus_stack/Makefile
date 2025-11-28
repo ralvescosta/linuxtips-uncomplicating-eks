@@ -189,6 +189,14 @@ update-addons: ## Update EKS addon versions from AWS
 		--region $(AWS_REGION) \
 		--query 'addons[0].addonVersions[0].addonVersion' \
 		--output text 2>/dev/null); \
+	EFS_CSI_DRIVER_VERSION=$$(aws eks describe-addon-versions \
+		--addon-name aws-efs-csi-driver \
+		--kubernetes-version $(K8S_VERSION) \
+		--profile $(AWS_PROFILE) \
+		--endpoint-url=$(LOCALSTACK_ENDPOINT) \
+		--region $(AWS_REGION) \
+		--query 'addons[0].addonVersions[0].addonVersion' \
+		--output text 2>/dev/null); \
 	if [ ! -z "$$CNI_VERSION" ] && [ "$$CNI_VERSION" != "None" ]; then \
 		echo "   VPC CNI: $$CNI_VERSION"; \
 		sed -i.bak "s|addon_cni_version=\"v[^\"]*\"|addon_cni_version=\"$$CNI_VERSION\"|g" $(TFVARS_FILE) && rm -f $(TFVARS_FILE).bak; \
@@ -212,6 +220,12 @@ update-addons: ## Update EKS addon versions from AWS
 		sed -i.bak "s|addon_pod_identity_version=\"v[^\"]*\"|addon_pod_identity_version=\"$$POD_IDENTITY_VERSION\"|g" $(TFVARS_FILE) && rm -f $(TFVARS_FILE).bak; \
 	else \
 		echo "   ⚠️  Could not fetch Pod Identity version"; \
+	fi; \
+	if [ ! -z "$$EFS_CSI_DRIVER_VERSION" ] && [ "$$EFS_CSI_DRIVER_VERSION" != "None" ]; then \
+		echo "   EFS CSI Driver: $$EFS_CSI_DRIVER_VERSION"; \
+		sed -i.bak "s|addon_efs_csi_driver_version=\"v[^\"]*\"|addon_efs_csi_driver_version=\"$$EFS_CSI_DRIVER_VERSION\"|g" $(TFVARS_FILE) && rm -f $(TFVARS_FILE).bak; \
+	else \
+		echo "   ⚠️  Could not fetch EFS CSI Driver version"; \
 	fi
 	echo "✅ Addon versions updated."
 

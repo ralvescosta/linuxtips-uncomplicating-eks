@@ -64,19 +64,32 @@ module "nodes" {
   ]
 }
 
+module "iam_efs_csi" {
+  source       = "./modules/iam_efs_csi"
+  project_name = var.project_name
+  cluster_name = module.eks.cluster_name
+
+  depends_on = [
+    module.oidc,
+    module.nodes,
+  ]
+}
+
 module "addons" {
   source = "./modules/addons"
 
-  aws_eks_cluster_name       = module.eks.cluster_name
-  addon_cni_version          = var.addon_cni_version
-  addon_coredns_version      = var.addon_coredns_version
-  addon_kubeproxy_version    = var.addon_kubeproxy_version
-  addon_pod_identity_version = var.addon_pod_identity_version
+  aws_eks_cluster_name         = module.eks.cluster_name
+  addon_cni_version            = var.addon_cni_version
+  addon_coredns_version        = var.addon_coredns_version
+  addon_kubeproxy_version      = var.addon_kubeproxy_version
+  addon_pod_identity_version   = var.addon_pod_identity_version
+  addon_efs_csi_driver_version = var.addon_efs_csi_driver_version
 
   depends_on = [
     module.eks,
     module.oidc,
     module.nodes,
+    module.iam_efs_csi,
   ]
 }
 
