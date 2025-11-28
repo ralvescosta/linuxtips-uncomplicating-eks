@@ -32,6 +32,7 @@ provider "aws" {
     ses                    = var.use_localstack ? "http://localhost:4566" : null
     sns                    = var.use_localstack ? "http://localhost:4566" : null
     sqs                    = var.use_localstack ? "http://localhost:4566" : null
+    events                 = var.use_localstack ? "http://localhost:4566" : null
     ssm                    = var.use_localstack ? "http://localhost:4566" : null
     sts                    = var.use_localstack ? "http://localhost:4566" : null
     servicediscovery       = var.use_localstack ? "http://localhost:4566" : null

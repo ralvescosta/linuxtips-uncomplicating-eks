@@ -267,7 +267,7 @@ plan: ## Run Terraform plan
 	terraform plan -var-file="terraform.tfvars"
 
 apply: ## Apply Terraform changes
-	terraform apply -var-file="terraform.tfvars"
+	terraform apply -var-file="terraform.tfvars" -auto-approve
 
 destroy: ## Destroy Terraform resources
 	terraform destroy

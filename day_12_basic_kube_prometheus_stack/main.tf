@@ -64,17 +64,6 @@ module "nodes" {
   ]
 }
 
-module "iam_efs_csi" {
-  source       = "./modules/iam_efs_csi"
-  project_name = var.project_name
-  cluster_name = module.eks.cluster_name
-
-  depends_on = [
-    module.oidc,
-    module.nodes,
-  ]
-}
-
 module "addons" {
   source = "./modules/addons"
 
@@ -89,7 +78,16 @@ module "addons" {
     module.eks,
     module.oidc,
     module.nodes,
-    module.iam_efs_csi,
+  ]
+}
+
+module "iam_efs_csi" {
+  source       = "./modules/iam_efs_csi"
+  project_name = var.project_name
+  cluster_name = module.eks.cluster_name
+
+  depends_on = [
+    module.addons,
   ]
 }
 
@@ -166,7 +164,7 @@ module "kubectl_karpenter" {
 
   karpenter_capacity                = var.karpenter_capacity
   aws_nodes_instance_profile_name   = module.eks_nodes_role.instance_profile_name
-  aws_eks_amis                      = data.aws_ssm_parameter.karpenter_ami[*].value
+  aws_eks_amis                      = ["ami-cd82fe08"]
   aws_eks_cluster_security_group_id = module.eks.cluster_security_group_id
   subnet_ids                        = var.private_subnets
 
