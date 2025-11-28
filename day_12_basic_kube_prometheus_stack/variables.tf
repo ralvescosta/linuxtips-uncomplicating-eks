@@ -69,6 +69,19 @@ variable "nodes_instance_sizes" {
   description = "List of instance sizes for the project"
 }
 
+variable "karpenter_capacity" {
+  type = list(object({
+    name               = string
+    workload           = string
+    ami_family         = string
+    ami_ssm            = string
+    instance_family    = list(string)
+    instance_sizes     = list(string)
+    capacity_type      = list(string)
+    availability_zones = list(string)
+  }))
+}
+
 variable "addon_cni_version" {
   type        = string
   default     = "v1.20.4-eksbuild.1"
@@ -91,4 +104,10 @@ variable "addon_pod_identity_version" {
   type        = string
   default     = "v1.3.9-eksbuild.3"
   description = "Pod Identity Addon version"
+}
+
+variable "addon_efs_csi_driver_version" {
+  type        = string
+  default     = "v2.1.13-eksbuild.1"
+  description = "EFS CSI Driver Addon version"
 }

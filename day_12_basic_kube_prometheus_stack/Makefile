@@ -1,4 +1,4 @@
-.PHONY: help localstack update-localstack-config update-vpc update-subnets update-addons
+.PHONY: help localstack update-localstack-config update-vpc update-subnets update-addons s3_tf_state
 
 # Default profile and endpoint for LocalStack
 LOCALSTACK_ENDPOINT := http://localhost:4566

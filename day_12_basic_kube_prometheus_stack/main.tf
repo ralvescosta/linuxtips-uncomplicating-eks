@@ -101,3 +101,63 @@ module "kube_state_metrics" {
     module.kube_metrics_server,
   ]
 }
+
+module "sqs_node_termination" {
+  source = "./modules/sqs_node_termination_handler"
+
+  project_name = var.project_name
+
+  depends_on = [
+    module.oidc,
+    module.eks,
+    module.nodes,
+    module.addons,
+  ]
+}
+
+module "karpenter_role" {
+  source = "./modules/iam_karpenter"
+
+  project_name                = var.project_name
+  openid_connect_provider_arn = module.oidc.oidc_provider_arn
+
+  depends_on = [
+    module.oidc,
+    module.eks,
+    module.nodes,
+    module.addons,
+  ]
+}
+
+module "helm_karpenter" {
+  source = "./modules/helm_karpenter"
+
+  project_name                    = var.project_name
+  karpenter_role_arn              = module.karpenter_role.role_arn
+  aws_eks_cluster_endpoint        = module.eks.cluster_endpoint
+  aws_nodes_instance_profile_name = module.eks_nodes_role.instance_profile_name
+  sqs_interruption_queue_name     = module.sqs_node_termination.sqs_queue_name
+
+  depends_on = [
+    module.eks,
+    module.nodes_entry,
+    module.nodes,
+    module.addons,
+    module.karpenter_role,
+    module.sqs_node_termination,
+  ]
+}
+
+module "kubectl_karpenter" {
+  source = "./modules/kubectl_karpenter"
+
+  karpenter_capacity                = var.karpenter_capacity
+  aws_nodes_instance_profile_name   = module.eks_nodes_role.instance_profile_name
+  aws_eks_amis                      = data.aws_ssm_parameter.karpenter_ami[*].value
+  aws_eks_cluster_security_group_id = module.eks.cluster_security_group_id
+  subnet_ids                        = var.private_subnets
+
+  depends_on = [
+    module.helm_karpenter,
+  ]
+}
