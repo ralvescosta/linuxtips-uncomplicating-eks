@@ -172,3 +172,14 @@ module "kubectl_karpenter" {
     module.helm_karpenter,
   ]
 }
+
+module "helm_kube_prometheus_stack" {
+  source = "./modules/helm_kube_prometheus_stack"
+
+  depends_on = [
+    module.eks,
+    module.nodes,
+    module.addons,
+    module.helm_karpenter,
+  ]
+}
