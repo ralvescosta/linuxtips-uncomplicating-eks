@@ -26,6 +26,16 @@ alertmanager:
 
 grafana:
   enabled: true
+  adminUser: admin
+  adminPassword: admin
+  initChownData:
+    enabled: false
+  persistence:
+    enabled: true
+    storageClassName: "efs-grafana"
+    accessModes: 
+      - "ReadWriteMany"
+    size: 10Gi
 
 prometheusOperator:
   enabled: true
