@@ -173,6 +173,19 @@ module "kubectl_karpenter" {
   ]
 }
 
+module "prometheus_stack_efs" {
+  source = "./modules/prom_stack_efs"
+
+  project_name = var.project_name
+  vpc_id       = module.eks.vpc_id
+  subnet_ids   = var.private_subnets
+
+  depends_on = [
+    module.iam_efs_csi,
+    module.addons,
+  ]
+}
+
 module "helm_kube_prometheus_stack" {
   source = "./modules/helm_kube_prometheus_stack"
 

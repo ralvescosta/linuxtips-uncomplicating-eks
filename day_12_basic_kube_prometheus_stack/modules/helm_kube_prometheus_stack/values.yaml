@@ -1,6 +1,15 @@
 prometheus:
   enabled: true
   prometheusSpec:
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: "efs-prometheus"
+          accessModes: 
+            - "ReadWriteMany"
+          resources:
+            requests:
+              storage: 50Gi
     podMonitorSelector: {}
     podMonitorSelectorNilUsesHelmValues: false
     ruleSelector: {}
