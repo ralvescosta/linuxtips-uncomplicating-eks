@@ -84,6 +84,12 @@ variable "addon_efs_csi_driver_version" {
   description = "EFS CSI Driver Addon version"
 }
 
+variable "istio_version" {
+  type        = string
+  default     = "1.25.0"
+  description = "Istio version to be installed"
+}
+
 variable "karpenter_capacity" {
   type = list(object({
     name               = string
