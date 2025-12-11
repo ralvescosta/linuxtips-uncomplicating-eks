@@ -1,11 +1,9 @@
 resource "aws_lb" "ingress" {
-
   name = var.project_name
 
   internal           = false
   load_balancer_type = "network"
-
-  subnets = data.aws_ssm_parameter.public_subnets[*].value
+  subnets = var.public_subnets
 
   enable_cross_zone_load_balancing = true
   enable_deletion_protection       = false
@@ -20,7 +18,7 @@ resource "aws_lb_target_group" "main" {
   name     = format("%s-http", var.project_name)
   port     = 8080
   protocol = "TCP"
-  vpc_id   = data.aws_ssm_parameter.vpc.value
+  vpc_id   = var.vpc_id
 }
 
 resource "aws_lb_listener" "main" {

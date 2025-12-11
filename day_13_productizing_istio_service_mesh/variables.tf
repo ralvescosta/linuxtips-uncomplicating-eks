@@ -8,29 +8,36 @@ variable "region" {
   description = "Nome da região onde os recursos serão entregues"
 }
 
+variable "profile" {
+  type        = string
+  description = "AWS CLI profile to use"
+  default     = "personal"
+}
+
 variable "k8s_version" {
   type        = string
   description = "Versão do kubernetes do projeto"
+  default     = "1.33"
 }
 
-variable "ssm_vpc" {
+variable "vpc_id" {
   type        = string
-  description = "ID do SSM onde está o id da VPC onde o projeto será criado"
+  description = "VPC ID for the project"
 }
 
-variable "ssm_public_subnets" {
+variable "public_subnets" {
   type        = list(string)
-  description = "Lista dos ID's do SSM onde estão as subnets públicas do projeto"
+  description = "List of public subnets for the project"
 }
 
-variable "ssm_private_subnets" {
+variable "private_subnets" {
   type        = list(string)
-  description = "Lista dos ID's do SSM onde estão as subnets privadas do projeto"
+  description = "List of private subnets for the project"
 }
 
-variable "ssm_pod_subnets" {
+variable "pod_subnets" {
   type        = list(string)
-  description = "Lista dos ID's do SSM onde estão as subnets de pods do projeto"
+  description = "List of pod subnets for the project"
 }
 
 variable "auto_scale_options" {
@@ -49,39 +56,32 @@ variable "nodes_instance_sizes" {
 
 variable "addon_cni_version" {
   type        = string
-  default     = "v1.18.3-eksbuild.2"
-  description = "Versão do Addon da VPC CNI"
+  default     = "v1.20.4-eksbuild.1"
+  description = "VPC CNI Addon version"
 }
 
 variable "addon_coredns_version" {
   type        = string
-  default     = "v1.11.3-eksbuild.1"
-  description = "Versão do Addon do CoreDNS"
+  default     = "v1.12.4-eksbuild.1"
+  description = "CoreDNS Addon version"
 }
 
 variable "addon_kubeproxy_version" {
   type        = string
-  default     = "v1.31.2-eksbuild.3"
-  description = "Versão do Addon do Kube-Proxy"
+  default     = "v1.33.3-eksbuild.10"
+  description = "Kube-Proxy Addon version"
 }
 
 variable "addon_pod_identity_version" {
   type        = string
-  default     = "v1.3.4-eksbuild.1"
-  description = "Versão do Addon do Pod Identity"
+  default     = "v1.3.9-eksbuild.3"
+  description = "Pod Identity Addon version"
 }
 
-variable "addon_efs_csi_version" {
+variable "addon_efs_csi_driver_version" {
   type        = string
-  default     = "v2.1.4-eksbuild.1"
-  description = "Versão do Addon do EFS CSI"
-
-}
-
-variable "grafana_host" {
-  type        = string
-  default     = "grafana.msfidelis.com.br"
-  description = "Host do Grafana"
+  default     = "v2.1.13-eksbuild.1"
+  description = "EFS CSI Driver Addon version"
 }
 
 variable "karpenter_capacity" {
@@ -99,16 +99,15 @@ variable "karpenter_capacity" {
 
 variable "dns_name" {
   type    = string
-  default = "*.msfidelis.com.br"
+  default = "*.ralvescosta.dev"
 }
 
 variable "route53_hosted_zone" {
   type    = string
-  default = "Z102505525LUE9SZ7HWTY"
+  default = "Z00279991SD1HYHQ0HKYW"
 }
 
 # Nginx
-
 variable "nginx_min_replicas" {
   type    = string
   default = "3"

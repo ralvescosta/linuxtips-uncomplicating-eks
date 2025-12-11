@@ -4,7 +4,7 @@ resource "aws_eks_fargate_profile" "karpenter" {
 
   pod_execution_role_arn = aws_iam_role.fargate.arn
 
-  subnet_ids = data.aws_ssm_parameter.pod_subnets[*].value
+  subnet_ids = var.pod_subnets
 
   selector {
     namespace = "karpenter"

@@ -25,7 +25,6 @@ data "aws_iam_policy_document" "aws_lb_policy" {
   version = "2012-10-17"
 
   statement {
-
     effect = "Allow"
     actions = [
       "acm:DescribeCertificate",
@@ -111,7 +110,6 @@ data "aws_iam_policy_document" "aws_lb_policy" {
     resources = [
       "*"
     ]
-
   }
 }
 

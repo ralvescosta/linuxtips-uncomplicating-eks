@@ -8,11 +8,11 @@ resource "aws_efs_file_system" "grafana" {
 }
 
 resource "aws_efs_mount_target" "grafana" {
-  count = length(data.aws_ssm_parameter.pod_subnets)
+  count = length(var.pod_subnets)
 
 
   file_system_id = aws_efs_file_system.grafana.id
-  subnet_id = data.aws_ssm_parameter.pod_subnets[count.index].value
+  subnet_id = var.pod_subnets[count.index].value
   security_groups = [
     aws_security_group.efs.id
   ]

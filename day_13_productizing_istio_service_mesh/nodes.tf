@@ -4,10 +4,8 @@ resource "aws_eks_node_group" "main" {
   node_group_name = aws_eks_cluster.main.id
 
   node_role_arn = aws_iam_role.eks_nodes_role.arn
-
   instance_types = var.nodes_instance_sizes
-
-  subnet_ids = data.aws_ssm_parameter.pod_subnets[*].value
+  subnet_ids = var.pod_subnets
 
   scaling_config {
     desired_size = 1

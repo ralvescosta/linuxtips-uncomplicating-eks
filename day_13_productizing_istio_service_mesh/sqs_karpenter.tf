@@ -28,7 +28,6 @@ EOF
 }
 
 resource "aws_cloudwatch_event_rule" "karpenter_instance_terminate" {
-
   name        = format("%s-instance-terminate", var.project_name)
   description = var.project_name
 
@@ -41,7 +40,6 @@ resource "aws_cloudwatch_event_rule" "karpenter_instance_terminate" {
 }
 
 resource "aws_cloudwatch_event_target" "karpenter_instance_terminate" {
-
   rule      = aws_cloudwatch_event_rule.karpenter_instance_terminate.name
   target_id = "SendToSQS"
   arn       = aws_sqs_queue.karpenter.arn
@@ -49,7 +47,6 @@ resource "aws_cloudwatch_event_target" "karpenter_instance_terminate" {
 
 
 resource "aws_cloudwatch_event_rule" "karpenter_scheduled_change" {
-
   name        = format("%s-scheduled-change", var.project_name)
   description = var.project_name
 
@@ -70,14 +67,12 @@ resource "aws_cloudwatch_event_rule" "karpenter_scheduled_change" {
 }
 
 resource "aws_cloudwatch_event_target" "karpenter_scheduled_change" {
-
   rule      = aws_cloudwatch_event_rule.karpenter_scheduled_change.name
   target_id = "SendToSQS"
   arn       = aws_sqs_queue.karpenter.arn
 }
 
 resource "aws_cloudwatch_event_rule" "karpenter_spot_termination" {
-
   name        = format("%s-spot-termination", var.project_name)
   description = var.project_name
 
@@ -90,7 +85,6 @@ resource "aws_cloudwatch_event_rule" "karpenter_spot_termination" {
 }
 
 resource "aws_cloudwatch_event_target" "karpenter_spot_termination" {
-
   rule      = aws_cloudwatch_event_rule.karpenter_spot_termination.name
   target_id = "SendToSQS"
   arn       = aws_sqs_queue.karpenter.arn
@@ -98,7 +92,6 @@ resource "aws_cloudwatch_event_target" "karpenter_spot_termination" {
 
 
 resource "aws_cloudwatch_event_rule" "karpenter_rebalance" {
-
   name        = format("%s-rebalance", var.project_name)
   description = var.project_name
 
@@ -111,7 +104,6 @@ resource "aws_cloudwatch_event_rule" "karpenter_rebalance" {
 }
 
 resource "aws_cloudwatch_event_target" "karpenter_rebalance" {
-
   rule      = aws_cloudwatch_event_rule.karpenter_rebalance.name
   target_id = "SendToSQS"
   arn       = aws_sqs_queue.karpenter.arn
@@ -119,7 +111,6 @@ resource "aws_cloudwatch_event_target" "karpenter_rebalance" {
 
 
 resource "aws_cloudwatch_event_rule" "karpenter_state_change" {
-
   name        = format("%s-state-change", var.project_name)
   description = var.project_name
 
@@ -132,7 +123,6 @@ resource "aws_cloudwatch_event_rule" "karpenter_state_change" {
 }
 
 resource "aws_cloudwatch_event_target" "karpenter_state_change" {
-
   rule      = aws_cloudwatch_event_rule.karpenter_state_change.name
   target_id = "SendToSQS"
   arn       = aws_sqs_queue.karpenter.arn

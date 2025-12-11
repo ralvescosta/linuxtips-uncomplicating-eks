@@ -5,7 +5,7 @@ resource "aws_eks_cluster" "main" {
   role_arn = aws_iam_role.eks_cluster_role.arn
 
   vpc_config {
-    subnet_ids = data.aws_ssm_parameter.private_subnets[*].value
+    subnet_ids = var.private_subnets
   }
 
   encryption_config {

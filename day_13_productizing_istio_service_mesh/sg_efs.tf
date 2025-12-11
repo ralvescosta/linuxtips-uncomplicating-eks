@@ -1,6 +1,6 @@
 resource "aws_security_group" "efs" {
     name   = format("%s-efs", var.project_name)
-    vpc_id = data.aws_ssm_parameter.vpc.value
+    vpc_id = var.vpc_id
     
     ingress {
         from_port   = 2049
