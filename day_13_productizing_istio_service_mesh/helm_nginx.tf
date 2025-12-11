@@ -7,85 +7,35 @@ resource "helm_release" "nginx_controller" {
 
   create_namespace = true
 
-  set {
-    name  = "controller.service.internal.enabled"
-    value = "true"
-  }
-
-  set {
-    name  = "controller.publishService.enable"
-    value = "true"
-  }
-
-  set {
-    name  = "controller.service.type"
-    value = "NodePort"
-  }
-
-  # Autoscaling
-  set {
-    name  = "controller.autoscaling.enabled"
-    value = "true"
-  }
-
-  set {
-    name  = "controller.autoscaling.minReplicas"
-    value = var.nginx_min_replicas
-  }
-
-  set {
-    name  = "controller.autoscaling.maxReplicas"
-    value = var.nginx_max_replicas
-  }
-
-  # Capacity
-  set {
-    name  = "controller.resources.requests.cpu"
-    value = var.nginx_requests_cpu
-  }
-
-  set {
-    name  = "controller.resources.requests.memory"
-    value = var.nginx_requests_memory
-  }
-
-  set {
-    name  = "controller.resources.limits.cpu"
-    value = var.nginx_limits_cpu
-  }
-
-  set {
-    name  = "controller.resources.limits.memory"
-    value = var.nginx_limits_memory
-  }
-
-  # Service Monitors 
-
-  set {
-    name  = "controller.metrics.enabled"
-    value = "true"
-  }
-
-  set {
-    name  = "controller.metrics.serviceMonitor.enabled"
-    value = "true"
-  }
-
-  set {
-    name  = "controller.podAnnotations.prometheus\\.io/scrape"
-    value = "true"
-  }
-
-    set {
-    name  = "controller.podAnnotations.prometheus\\.io/port"
-    value = "10254"
-  }
-
-  set {
-    name  = "controller.kind"
-    value = "Deployment"
-    # value = "DaemonSet"
-  }
+  values = [<<-YAML
+    controller:
+      service:
+        internal:
+          enabled: true
+        type: NodePort
+      publishService:
+        enable: true
+      autoscaling:
+        enabled: true
+        minReplicas: ${var.nginx_min_replicas}
+        maxReplicas: ${var.nginx_max_replicas}
+      resources:
+        requests:
+          cpu: ${var.nginx_requests_cpu}
+          memory: ${var.nginx_requests_memory}
+        limits:
+          cpu: ${var.nginx_limits_cpu}
+          memory: ${var.nginx_limits_memory}
+      metrics:
+        enabled: true
+        serviceMonitor:
+          enabled: true
+      podAnnotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "10254"
+      kind: Deployment
+  YAML
+  ]
 
   depends_on = [
     helm_release.karpenter

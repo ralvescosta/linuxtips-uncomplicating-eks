@@ -8,10 +8,11 @@ resource "helm_release" "metrics_server" {
 
   version = "7.2.16"
 
-  set {
-    name  = "apiService.create"
-    value = "true"
-  }
+  values = [<<-YAML
+    apiService:
+      create: true
+  YAML
+  ]
 
   depends_on = [
     aws_eks_cluster.main,

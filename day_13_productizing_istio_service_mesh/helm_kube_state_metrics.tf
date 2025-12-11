@@ -5,20 +5,17 @@ resource "helm_release" "kube_state_metrics" {
   namespace        = "kube-system"
   create_namespace = true
 
-  set {
-    name  = "apiService.create"
-    value = "true"
-  }
-
-  set {
-    name  = "metricLabelsAllowlist[0]"
-    value = "nodes=[*]"
-  }
-
-  set {
-    name  = "metricAnnotationsAllowList[0]"
-    value = "nodes=[*]"
-  }
+  values = [<<-YAML
+    apiService:
+      create: true
+    
+    metricLabelsAllowlist:
+      - "nodes=[*]"
+    
+    metricAnnotationsAllowList:
+      - "nodes=[*]"
+  YAML
+  ]
 
   depends_on = [
     aws_eks_cluster.main,

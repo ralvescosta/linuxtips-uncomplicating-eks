@@ -7,30 +7,18 @@ resource "helm_release" "karpenter" {
   chart      = "karpenter"
   version    = "1.0.8"
 
-  set {
-    name  = "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
-    value = aws_iam_role.karpenter.arn
-  }
-
-  set {
-    name  = "settings.clusterName"
-    value = var.project_name
-  }
-
-  set {
-    name  = "settings.clusterEndpoint"
-    value = aws_eks_cluster.main.endpoint
-  }
-
-  set {
-    name  = "aws.defaultInstanceProfile"
-    value = aws_iam_instance_profile.nodes.name
-  }
-
-  set {
-    name  = "settings.interruptionQueue"
-    value = aws_sqs_queue.karpenter.name
-  }
+  values = [<<-YAML
+    serviceAccount:
+      annotations:
+        eks.amazonaws.com/role-arn: ${aws_iam_role.karpenter.arn}
+    settings:
+      clusterName: ${var.project_name}
+      clusterEndpoint: ${aws_eks_cluster.main.endpoint}
+      interruptionQueue: ${aws_sqs_queue.karpenter.name}
+    aws:
+      defaultInstanceProfile: ${aws_iam_instance_profile.nodes.name}
+  YAML
+  ]
 
   depends_on = [
     aws_eks_cluster.main,
