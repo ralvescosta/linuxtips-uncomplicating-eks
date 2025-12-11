@@ -107,6 +107,12 @@ variable "route53_hosted_zone" {
   default = "Z00279991SD1HYHQ0HKYW"
 }
 
+variable "grafana_host" {
+  type        = string
+  default     = "grafana.ralvescosta.dev"
+  description = "Host do Grafana"
+}
+
 # Nginx
 variable "nginx_min_replicas" {
   type    = string

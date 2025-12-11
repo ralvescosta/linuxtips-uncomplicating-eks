@@ -3,7 +3,7 @@ resource "aws_lb" "ingress" {
 
   internal           = false
   load_balancer_type = "network"
-  subnets = var.public_subnets
+  subnets            = var.public_subnets
 
   enable_cross_zone_load_balancing = true
   enable_deletion_protection       = false
