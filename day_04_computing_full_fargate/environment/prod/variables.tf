@@ -8,13 +8,13 @@ variable "region" {
 
 variable "use_localstack" {
   type    = bool
-  default = true 
+  default = true
 }
 
 variable "k8s_version" {
   type        = string
   description = "Kubernetes version for the project"
-  default = "1.32"
+  default     = "1.32"
 }
 
 variable "ssm_vpc" {

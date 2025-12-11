@@ -48,5 +48,5 @@ resource "helm_release" "node_termination_handler" {
       name  = "checkTagBeforeDraining"
       value = false
     }
-  ] 
+  ]
 }

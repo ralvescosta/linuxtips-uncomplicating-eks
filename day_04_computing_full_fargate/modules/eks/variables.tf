@@ -1,13 +1,13 @@
 variable "project_name" {
   type        = string
   description = "Name of the project for which the subnets are being created"
-  default     = "my_project" 
+  default     = "my_project"
 }
 
 variable "k8s_version" {
   type        = string
   description = "Kubernetes version for the project"
-  default = "1.31"
+  default     = "1.31"
 }
 
 variable "eks_cluster_role_arn" {

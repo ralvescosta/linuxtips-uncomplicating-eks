@@ -7,7 +7,7 @@ resource "aws_subnet" "main" {
 
   tags = {
     Name = var.database_subnets[count.index].name
-  } 
+  }
 }
 
 # resource "aws_network_acl" "main" {

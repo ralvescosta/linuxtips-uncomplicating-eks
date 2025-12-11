@@ -15,7 +15,7 @@ resource "helm_release" "kube_state_metrics" {
       value = "nodes=[*]"
     },
     {
-    name  = "metricAnnotationsAllowList[0]"
+      name  = "metricAnnotationsAllowList[0]"
       value = "nodes=[*]"
     }
   ]

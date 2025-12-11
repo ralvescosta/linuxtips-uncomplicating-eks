@@ -7,7 +7,7 @@ resource "aws_subnet" "main" {
 
   tags = {
     Name = var.subnets[count.index].name
-  } 
+  }
 }
 
 resource "aws_route_table" "main" {
@@ -15,7 +15,7 @@ resource "aws_route_table" "main" {
 
   tags = {
     Name = format("%s-%s-%s", var.project_name, var.subnets[0].name, "rtb")
-  } 
+  }
 }
 
 resource "aws_route" "main" {
@@ -23,7 +23,7 @@ resource "aws_route" "main" {
   destination_cidr_block = "0.0.0.0/0"
   gateway_id             = var.igw_id
 
-  depends_on = [aws_subnet.main, aws_route_table.main] 
+  depends_on = [aws_subnet.main, aws_route_table.main]
 }
 
 resource "aws_route_table_association" "main" {
@@ -31,5 +31,5 @@ resource "aws_route_table_association" "main" {
   subnet_id      = aws_subnet.main[count.index].id
   route_table_id = aws_route_table.main.id
 
-  depends_on = [aws_route.main]  
+  depends_on = [aws_route.main]
 }

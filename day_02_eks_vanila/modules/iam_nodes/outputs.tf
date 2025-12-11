@@ -30,7 +30,7 @@ output "instance_profile_name" {
 
 output "role_policy_attachments" {
   description = "List of IAM role policy attachments for nodes"
-  value       = [
+  value = [
     aws_iam_role_policy_attachment.cni.policy_arn,
     aws_iam_role_policy_attachment.nodes.policy_arn,
     aws_iam_role_policy_attachment.ecr.policy_arn,

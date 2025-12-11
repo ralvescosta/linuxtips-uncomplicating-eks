@@ -16,10 +16,10 @@ pod_subnets = [
   "subnet-06035a570ea949c58",
   "subnet-07b28e126f5e958da"
 ]
-addon_cni_version="v1.20.4-eksbuild.1"
-addon_coredns_version="v1.12.4-eksbuild.1"
-addon_kubeproxy_version="v1.33.3-eksbuild.10"
-addon_pod_identity_version="v1.3.9-eksbuild.3"
+addon_cni_version          = "v1.20.4-eksbuild.1"
+addon_coredns_version      = "v1.12.4-eksbuild.1"
+addon_kubeproxy_version    = "v1.33.3-eksbuild.10"
+addon_pod_identity_version = "v1.3.9-eksbuild.3"
 
 auto_scale_options = {
   min     = 2

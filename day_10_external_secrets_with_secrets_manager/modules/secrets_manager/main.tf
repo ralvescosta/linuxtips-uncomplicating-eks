@@ -1,6 +1,6 @@
 resource "aws_secretsmanager_secret" "sm" {
-  name                     = var.name
-  description              = "${var.name} managed by Terraform"
+  name        = var.name
+  description = "${var.name} managed by Terraform"
 }
 
 resource "aws_secretsmanager_secret_version" "sm_version" {

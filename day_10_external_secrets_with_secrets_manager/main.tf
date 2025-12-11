@@ -103,12 +103,12 @@ module "kube_state_metrics" {
 }
 
 module "iam_external_secrets" {
-  source       = "./modules/iam_external_secrets"
+  source = "./modules/iam_external_secrets"
 
   project_name = var.project_name
   cluster_name = module.eks.cluster_name
 
-  depends_on   = [
+  depends_on = [
     module.addons,
   ]
 }
@@ -125,14 +125,14 @@ module "helm_external_secrets" {
 module "secrets_manager" {
   source = "./modules/secrets_manager"
 
-  name          = "chip-test"
+  name = "chip-test"
   secret_string = jsonencode({
     username = "admin"
     password = "password123"
     foo      = "bar"
   })
 
-  depends_on = [ 
+  depends_on = [
     module.helm_external_secrets
   ]
 }

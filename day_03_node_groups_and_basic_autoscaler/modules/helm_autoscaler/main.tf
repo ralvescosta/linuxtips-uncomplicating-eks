@@ -15,7 +15,7 @@ resource "helm_release" "cluster_autoscaler" {
       name  = "awsRegion"
       value = var.region
     },
-   {
+    {
       name  = "rbac.serviceAccount.create"
       value = true
     },

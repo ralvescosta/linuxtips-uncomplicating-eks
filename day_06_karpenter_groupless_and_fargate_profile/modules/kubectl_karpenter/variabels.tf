@@ -17,7 +17,7 @@ variable "aws_nodes_instance_profile_name" {
 }
 
 variable "aws_eks_amis" {
-  type       = list(string)
+  type        = list(string)
   description = "List of AMI IDs for the EKS cluster"
 }
 

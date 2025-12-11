@@ -1,10 +1,10 @@
 resource "aws_eks_node_group" "main" {
-  cluster_name     = var.aws_eks_cluster_id
-  node_group_name  = var.aws_eks_cluster_id
-  node_role_arn    = var.aws_eks_nodes_role_arn
-  instance_types   = var.nodes_instance_sizes
+  cluster_name    = var.aws_eks_cluster_id
+  node_group_name = var.aws_eks_cluster_id
+  node_role_arn   = var.aws_eks_nodes_role_arn
+  instance_types  = var.nodes_instance_sizes
 
-  subnet_ids       = var.pod_subnet_ids
+  subnet_ids = var.pod_subnet_ids
 
   scaling_config {
     desired_size = lookup(var.auto_scale_options, "desired")

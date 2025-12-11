@@ -8,7 +8,7 @@ output "subnets_details" {
       cidr = subnet.cidr_block
       az   = subnet.availability_zone
     }
-  ] 
+  ]
 }
 
 output "nat_gateway_ids" {
