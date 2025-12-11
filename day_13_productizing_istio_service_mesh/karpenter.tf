@@ -1,6 +1,6 @@
 resource "kubectl_manifest" "ec2_node_class" {
   count = length(var.karpenter_capacity)
-  yaml_body = templatefile("${path.module}/karpenter/ec2_node_class.yml", {
+  yaml_body = templatefile("${path.module}/manifest/ec2_node_class.yml", {
     NAME              = var.karpenter_capacity[count.index].name
     INSTANCE_PROFILE  = aws_iam_instance_profile.nodes.name
     AMI_ID            = data.aws_ssm_parameter.karpenter_ami[count.index].value
@@ -16,7 +16,7 @@ resource "kubectl_manifest" "ec2_node_class" {
 
 resource "kubectl_manifest" "nodepool" {
   count = length(var.karpenter_capacity)
-  yaml_body = templatefile("${path.module}/karpenter/nodepool.yml", {
+  yaml_body = templatefile("${path.module}/manifest/nodepool.yml", {
     NAME               = var.karpenter_capacity[count.index].name
     WORKLOAD           = var.karpenter_capacity[count.index].workload
     INSTANCE_FAMILY    = var.karpenter_capacity[count.index].instance_family
