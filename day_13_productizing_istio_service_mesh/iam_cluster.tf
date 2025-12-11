@@ -6,7 +6,6 @@ data "aws_iam_policy_document" "cluster" {
       "sts:AssumeRole"
     ]
 
-
     principals {
       type = "Service"
       identifiers = [
@@ -14,7 +13,6 @@ data "aws_iam_policy_document" "cluster" {
       ]
     }
   }
-
 }
 
 resource "aws_iam_role" "eks_cluster_role" {

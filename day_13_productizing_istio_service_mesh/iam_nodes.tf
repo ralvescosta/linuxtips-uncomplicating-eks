@@ -6,7 +6,6 @@ data "aws_iam_policy_document" "nodes" {
       "sts:AssumeRole"
     ]
 
-
     principals {
       type = "Service"
       identifiers = [

@@ -1,5 +1,4 @@
 resource "aws_eks_node_group" "main" {
-
   cluster_name    = aws_eks_cluster.main.id
   node_group_name = aws_eks_cluster.main.id
 
@@ -40,5 +39,4 @@ resource "aws_eks_node_group" "main" {
     update = "2h"
     delete = "2h"
   }
-
 }
