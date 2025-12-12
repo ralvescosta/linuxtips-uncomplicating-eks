@@ -6,6 +6,10 @@ resource "aws_security_group_rule" "nodeports" {
   description       = "Nodeports"
   type              = "ingress"
   security_group_id = aws_eks_cluster.main.vpc_config[0].cluster_security_group_id
+
+  depends_on = [ 
+    aws_eks_cluster.main,
+  ]
 }
 
 resource "aws_security_group_rule" "coredns_udp" {
@@ -16,6 +20,10 @@ resource "aws_security_group_rule" "coredns_udp" {
   description       = "CoreDNS"
   type              = "ingress"
   security_group_id = aws_eks_cluster.main.vpc_config[0].cluster_security_group_id
+
+  depends_on = [ 
+    aws_eks_cluster.main,
+  ]
 }
 
 
@@ -27,4 +35,8 @@ resource "aws_security_group_rule" "coredns_tcp" {
   description       = "CoreDNS"
   type              = "ingress"
   security_group_id = aws_eks_cluster.main.vpc_config[0].cluster_security_group_id
+
+  depends_on = [ 
+    aws_eks_cluster.main,
+  ]
 }

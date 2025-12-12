@@ -10,11 +10,15 @@ resource "aws_efs_file_system" "grafana" {
 resource "aws_efs_mount_target" "grafana" {
   count = length(var.pod_subnets)
 
-
   file_system_id = aws_efs_file_system.grafana.id
   subnet_id      = var.pod_subnets[count.index]
   security_groups = [
     aws_security_group.efs.id
+  ]
+
+  depends_on = [ 
+    aws_efs_file_system.grafana,
+    aws_security_group.efs,
   ]
 }
 

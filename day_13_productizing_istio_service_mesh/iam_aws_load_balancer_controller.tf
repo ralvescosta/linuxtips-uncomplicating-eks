@@ -14,6 +14,10 @@ data "aws_iam_policy_document" "aws_lb_role" {
       type        = "Federated"
     }
   }
+
+  depends_on = [ 
+    aws_iam_openid_connect_provider.eks,
+  ]
 }
 
 resource "aws_iam_role" "aws_lb_controller" {

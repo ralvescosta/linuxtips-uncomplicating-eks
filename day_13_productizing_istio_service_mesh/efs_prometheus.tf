@@ -16,6 +16,11 @@ resource "aws_efs_mount_target" "prometheus" {
   security_groups = [
     aws_security_group.efs.id
   ]
+
+  depends_on = [ 
+    aws_efs_file_system.prometheus,
+    aws_security_group.efs,
+  ]
 }
 
 resource "kubectl_manifest" "prometheus_efs_storage_class" {

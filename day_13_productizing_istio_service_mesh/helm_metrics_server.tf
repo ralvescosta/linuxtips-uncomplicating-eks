@@ -21,12 +21,12 @@ resource "helm_release" "metrics_server" {
       - --secure-port=10251
       - --metric-resolution=15s
       - --kubelet-insecure-tls
-    replicas: 2
+    replicas: 1
   YAML
   ]
 
   depends_on = [
     aws_eks_cluster.main,
-    aws_eks_fargate_profile.karpenter
+    aws_eks_node_group.main,
   ]
 }

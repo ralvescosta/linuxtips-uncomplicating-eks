@@ -1,12 +1,12 @@
-resource "aws_eks_fargate_profile" "karpenter" {
-  cluster_name         = aws_eks_cluster.main.name
-  fargate_profile_name = "karpenter"
+# resource "aws_eks_fargate_profile" "karpenter" {
+#   cluster_name         = aws_eks_cluster.main.name
+#   fargate_profile_name = "karpenter"
 
-  pod_execution_role_arn = aws_iam_role.fargate.arn
+#   pod_execution_role_arn = aws_iam_role.fargate.arn
 
-  subnet_ids = var.pod_subnets
+#   subnet_ids = var.pod_subnets
 
-  selector {
-    namespace = "karpenter"
-  }
-}
+#   selector {
+#     namespace = "karpenter"
+#   }
+# }

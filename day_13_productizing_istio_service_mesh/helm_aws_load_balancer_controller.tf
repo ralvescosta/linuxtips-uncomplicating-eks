@@ -20,6 +20,6 @@ resource "helm_release" "alb_ingress_controller" {
   depends_on = [
     aws_eks_cluster.main,
     helm_release.karpenter,
-    aws_eks_fargate_profile.karpenter,
+    aws_iam_role.aws_lb_controller,
   ]
 }

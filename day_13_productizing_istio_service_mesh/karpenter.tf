@@ -10,7 +10,9 @@ resource "kubectl_manifest" "ec2_node_class" {
   })
 
   depends_on = [
-    helm_release.karpenter
+    aws_iam_instance_profile.nodes,
+    aws_eks_cluster.main,
+    helm_release.karpenter,
   ]
 }
 
@@ -26,6 +28,6 @@ resource "kubectl_manifest" "nodepool" {
   })
 
   depends_on = [
-    helm_release.karpenter
+    helm_release.karpenter,
   ]
 }

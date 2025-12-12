@@ -15,12 +15,10 @@ resource "aws_iam_role" "karpenter" {
   name               = format("%s-karpenter", var.project_name)
 }
 
-
 data "aws_iam_policy_document" "karpenter_policy" {
   version = "2012-10-17"
 
   statement {
-
     effect = "Allow"
     actions = [
       "eks:DescribeCluster",

@@ -7,9 +7,9 @@ resource "aws_eks_node_group" "main" {
   subnet_ids     = var.pod_subnets
 
   scaling_config {
-    desired_size = 1
-    max_size     = 1
-    min_size     = 1
+    desired_size = 2
+    max_size     = 2
+    min_size     = 2
   }
 
   capacity_type = "SPOT"
@@ -25,7 +25,9 @@ resource "aws_eks_node_group" "main" {
   }
 
   depends_on = [
-    aws_eks_access_entry.nodes
+    aws_eks_cluster.main,
+    aws_iam_role.eks_nodes_role,
+    aws_eks_access_entry.nodes,
   ]
 
   lifecycle {
