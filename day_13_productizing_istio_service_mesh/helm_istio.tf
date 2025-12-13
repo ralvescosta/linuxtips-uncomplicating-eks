@@ -13,7 +13,6 @@ resource "helm_release" "istio_base" {
   ]
 }
 
-
 resource "helm_release" "istiod" {
   name             = "istio"
   chart            = "istiod"
@@ -33,7 +32,6 @@ resource "helm_release" "istiod" {
     helm_release.istio_base
   ]
 }
-
 
 resource "helm_release" "istio_ingress" {
   name             = "istio-ingressgateway"

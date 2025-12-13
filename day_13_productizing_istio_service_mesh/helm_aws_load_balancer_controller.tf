@@ -10,7 +10,7 @@ resource "helm_release" "alb_ingress_controller" {
     region: ${var.region}
     vpcId: ${var.vpc_id}
     serviceAccount:
-      create: false
+      create: true
       name: aws-load-balancer-controller
       annotations:
         eks.amazonaws.com/role-arn: ${aws_iam_role.aws_lb_controller.arn}

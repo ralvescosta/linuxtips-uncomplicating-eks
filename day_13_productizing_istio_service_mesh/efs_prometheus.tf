@@ -40,6 +40,7 @@ YAML
 
   depends_on = [
     aws_eks_cluster.main,
-    helm_release.karpenter
+    helm_release.karpenter,
+    aws_efs_file_system.prometheus,
   ]
 }
