@@ -120,14 +120,14 @@ variable "istio_version" {
 }
 
 variable "istio_gateway_autoscaling" {
-  type        = object({
-    min = number
-    max = number
+  type = object({
+    min                   = number
+    max                   = number
     target_cpu_percentage = number
   })
-  default     = {
-    min = 2
-    max = 20
+  default = {
+    min                   = 2
+    max                   = 20
     target_cpu_percentage = 60
   }
   description = "Minimum and maximum number of replicas for Istio gateway components"
