@@ -3,7 +3,7 @@ resource "aws_eks_access_entry" "nodes" {
   principal_arn = aws_iam_role.eks_nodes_role.arn
   type          = "EC2_LINUX"
 
-  depends_on = [ 
+  depends_on = [
     aws_eks_cluster.main,
     aws_iam_role.eks_nodes_role
   ]

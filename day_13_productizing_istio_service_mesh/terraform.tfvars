@@ -4,8 +4,8 @@ region       = "us-east-1"
 ######## AWS
 vpc_id = "vpc-03b22061d7648182a"
 public_subnets = [
-  "subnet-095401481eb512d9e",
-  "subnet-020dff4417a686247",
+  "subnet-07b28e126f5e958da",
+  "subnet-06035a570ea949c58",
 ]
 private_subnets = [
   "subnet-0cd10a3a924e77ace",

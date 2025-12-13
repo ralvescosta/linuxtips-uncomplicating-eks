@@ -13,7 +13,8 @@ resource "helm_release" "prometheus" {
 
   depends_on = [
     aws_eks_cluster.main,
-    helm_release.karpenter
+    helm_release.karpenter,
+    helm_release.alb_ingress_controller,
   ]
 }
 

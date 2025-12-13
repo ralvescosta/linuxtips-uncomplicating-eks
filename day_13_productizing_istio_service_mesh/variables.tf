@@ -84,12 +84,6 @@ variable "addon_efs_csi_driver_version" {
   description = "EFS CSI Driver Addon version"
 }
 
-variable "istio_version" {
-  type        = string
-  default     = "1.25.0"
-  description = "Istio version to be installed"
-}
-
 variable "karpenter_capacity" {
   type = list(object({
     name               = string
@@ -119,3 +113,22 @@ variable "grafana_host" {
   description = "Host do Grafana"
 }
 
+variable "istio_version" {
+  type        = string
+  default     = "1.25.0"
+  description = "Istio version to be installed"
+}
+
+variable "istio_gateway_autoscaling" {
+  type        = object({
+    min = number
+    max = number
+    target_cpu_percentage = number
+  })
+  default     = {
+    min = 2
+    max = 20
+    target_cpu_percentage = 60
+  }
+  description = "Minimum and maximum number of replicas for Istio gateway components"
+}
