@@ -25,6 +25,12 @@ resource "helm_release" "istiod" {
   values = [<<-YAML
     sidecarInjectorWebhook:
       rewriteAppHTTPProbe: false
+    meshConfig:
+      enableTracing: true
+      defaultConfig:
+        tracing:
+          zipkin:
+            address: "jaeger-collector.tracing.svc.cluster.local:9411"
   YAML
   ]
 

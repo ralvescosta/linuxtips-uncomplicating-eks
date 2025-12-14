@@ -113,10 +113,28 @@ variable "grafana_host" {
   description = "Host do Grafana"
 }
 
+variable "jaeger_host" {
+  type        = string
+  default     = "jaeger.ralvescosta.dev"
+  description = "Host do Jaeger"
+}
+
+variable "kiali_host" {
+  type        = string
+  default     = "kiali.ralvescosta.dev"
+  description = "Host do Kiali"
+}
+
 variable "istio_version" {
   type        = string
   default     = "1.25.0"
   description = "Istio version to be installed"
+}
+
+variable "kiali_version" {
+  type        = string
+  default     = "2.5"
+  description = "Kiali version to be installed"
 }
 
 variable "istio_gateway_autoscaling" {
