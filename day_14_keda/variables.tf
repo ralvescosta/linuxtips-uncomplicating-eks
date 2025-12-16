@@ -137,6 +137,12 @@ variable "kiali_version" {
   description = "Kiali version to be installed"
 }
 
+variable "keda_version" {
+  type        = string
+  default     = "2.16.0"
+  description = "KEDA version to be installed"
+}
+
 variable "istio_gateway_autoscaling" {
   type = object({
     min                   = number
