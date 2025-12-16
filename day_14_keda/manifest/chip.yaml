@@ -19,7 +19,7 @@ spec:
       name: http
       protocol: HTTP
     hosts:
-    - "chip.ralvescosta.dev" 
+    - "chip.msfidelis.com.br" 
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -29,7 +29,7 @@ metadata:
 spec:
   hosts:
   - "chip.chip.svc.cluster.local"
-  - "chip.ralvescosta.dev"
+  - "chip.msfidelis.com.br"
   gateways:
   - chip
   http:
@@ -38,6 +38,30 @@ spec:
         host: chip
         port:
           number: 8080 
+    retries:
+      attempts: 3
+      perTryTimeout: 10500ms
+      retryOn: 5xx
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: chip
+  namespace: chip
+spec:
+  host: chip.chip.svc.cluster.local
+  trafficPolicy:
+    connectionPool:
+      tcp:
+        maxConnections: 2
+      http:
+        http1MaxPendingRequests: 10
+        maxRequestsPerConnection: 10
+    outlierDetection:
+      consecutive5xxErrors: 100
+      interval: 300ms
+      baseEjectionTime: 60s
+      maxEjectionPercent: 50
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -58,6 +82,29 @@ spec:
         name: chip
         version: v1
     spec:
+      topologySpreadConstraints:
+      - maxSkew: 1
+        topologyKey: "topology.kubernetes.io/zone"
+        whenUnsatisfiable: ScheduleAnyway
+        labelSelector:
+          matchLabels:
+            app: chip
+            
+      - maxSkew: 1
+        topologyKey: "node.kubernetes.io/instance-type"
+        whenUnsatisfiable: ScheduleAnyway
+        labelSelector:
+          matchLabels:
+            app: chip
+
+      - maxSkew: 1
+        topologyKey: "karpenter.sh/capacity-type"
+        whenUnsatisfiable: ScheduleAnyway
+        labelSelector:
+          matchLabels:
+            app: chip
+
+
       containers:
       - name: chip
         image: fidelissauro/chip:v1
@@ -117,3 +164,21 @@ spec:
   selector:
     app: chip
   type: ClusterIP
+---
+apiVersion: networking.istio.io/v1
+kind: ServiceEntry
+metadata:
+  name: google.com.br
+  namespace: chip
+spec:
+  hosts:
+  - google.com.br
+  - www.google.com.br
+  - google.com
+  location: MESH_EXTERNAL
+  ports:
+  - number: 443
+    name: https
+    protocol: TLS
+  resolution: DNS
+---
