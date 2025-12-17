@@ -11,6 +11,7 @@ resource "helm_release" "metrics_server" {
   values = [<<-YAML
     apiService:
       create: true
+    containerPort: 10251
     hostNetwork:
       enabled: true
     defaultArgs:
