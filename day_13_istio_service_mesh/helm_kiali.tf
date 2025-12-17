@@ -1,4 +1,4 @@
-resource "helm_release" "kiali-server" {
+resource "helm_release" "kiali_server" {
   name       = "kiali-server"
   chart      = "kiali-server"
   repository = "https://kiali.org/helm-charts"
