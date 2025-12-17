@@ -133,7 +133,7 @@ variable "istio_version" {
 
 variable "kiali_version" {
   type        = string
-  default     = "2.5"
+  default     = "2.5.0"
   description = "Kiali version to be installed"
 }
 
