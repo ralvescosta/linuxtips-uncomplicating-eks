@@ -18,6 +18,14 @@ spec:
   strategy:
     canary: 
       steps:
+        - setWeight: 10
+        - pause: {}
+        - setWeight: 20
+        - pause: {}
+        - setWeight: 40
+        - pause: {}
+        - setWeight: 80
+        - pause: {}
         - setWeight: 100
   replicas: 10
   selector:
@@ -71,19 +79,19 @@ spec:
           periodSeconds: 10
         env:
         - name: CHAOS_MONKEY_ENABLED
-          value: "false"  
+          value: "false"
         - name: CHAOS_MONKEY_MODE
-          value: "critical" 
+          value: "critical"
         - name: CHAOS_MONKEY_LATENCY
-          value: "true"            
+          value: "true"
         - name: CHAOS_MONKEY_EXCEPTION
-          value: "true"   
+          value: "true"
         - name: CHAOS_MONKEY_APP_KILLER
-          value: "true"   
+          value: "true"
         - name: CHAOS_MONKEY_MEMORY
-          value: "true"    
+          value: "true"
         - name: VERSION
-          value: "v1"                                              
+          value: "v2"
       terminationGracePeriodSeconds: 60
 ---
 apiVersion: networking.istio.io/v1alpha3

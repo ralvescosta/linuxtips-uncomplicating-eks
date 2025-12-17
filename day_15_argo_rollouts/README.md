@@ -5,3 +5,4 @@ In this fifteenth lesson, you will master advanced deployment strategies with Ar
 ![Canary Release 1](../.imgs/day_15_canary_releases_1.png)
 ![Canary Release 2](../.imgs/day_15_canary_releases_2.png)
 ![Argo Rollouts Dashboard](../.imgs/day_15_argo_rollout_dashboard.png)
+![Argo Rollouts Manual Approve](../.imgs/day_15_argo_rollout_manual_approv.png)
