@@ -125,6 +125,12 @@ variable "kiali_host" {
   description = "Host do Kiali"
 }
 
+variable "argo_rollouts_host" {
+  type        = string
+  default     = "rollouts.ralvescosta.dev"
+  description = "Host do Argo Rollouts"
+}
+
 variable "istio_version" {
   type        = string
   default     = "1.25.0"
@@ -141,6 +147,12 @@ variable "keda_version" {
   type        = string
   default     = "2.16.0"
   description = "KEDA version to be installed"
+}
+
+variable "argo_rollouts_version" {
+  type        = string
+  default     = "2.34.1"
+  description = "Argo Rollouts version to be installed"
 }
 
 variable "istio_gateway_autoscaling" {
