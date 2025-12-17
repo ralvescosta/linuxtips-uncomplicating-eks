@@ -25,4 +25,4 @@ sudo vi /ect/hosts
 curl --location --request POST 'http://health.ralvescosta.dev/calculator' --header 'Content-Type: application/json' --data-raw '{ "age": 26, "weight": 90.0, "height": 1.77, "gender": "M", "activity_intensity": "very_active" }' -iv
 ```
 
-![Istio Ingress Gateway](../.imgs/day_13_kiali.png)
+![Kiali](../.imgs/day_13_kiali.png)
