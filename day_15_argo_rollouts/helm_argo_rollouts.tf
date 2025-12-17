@@ -21,7 +21,7 @@ resource "helm_release" "argo_rollouts" {
 
   depends_on = [
     helm_release.karpenter,
-    helm_release.istio_ingress
+    helm_release.istio_ingress,
   ]
 }
 
@@ -45,7 +45,7 @@ spec:
 YAML
 
   depends_on = [
-    helm_release.argo_rollouts
+    helm_release.argo_rollouts,
   ]
 }
 
@@ -73,6 +73,6 @@ spec:
 YAML
 
   depends_on = [
-    helm_release.argo_rollouts
+    helm_release.argo_rollouts,
   ]
 }
